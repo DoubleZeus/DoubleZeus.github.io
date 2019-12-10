@@ -10,14 +10,14 @@
   <title>Category+NSInvocation通信方案(CTMediator) | ZeusZhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="CategoryCategory作为iOS开发者肯定不陌生，它的主要作用就是不改变原有类的前提下，动态的给这个类添加一些方法。Category还有很多有点，详情请参考category Category重名方法Category在编译器会生成class的实例方法列表 methodLists 和属性列表 properties，这两者跟class区别就是在命名规则遵循了公共前缀+类名+category名字">
-<meta name="keywords" content="zeus,zeuszhang,dobulez,iOS">
+<meta name="keywords" content="架构设计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Category+NSInvocation通信方案(CTMediator)">
 <meta property="og:url" content="http://yoursite.com/2016/08/13/Category-NSInvocation通信方案/index.html">
 <meta property="og:site_name" content="ZeusZhang">
 <meta property="og:description" content="CategoryCategory作为iOS开发者肯定不陌生，它的主要作用就是不改变原有类的前提下，动态的给这个类添加一些方法。Category还有很多有点，详情请参考category Category重名方法Category在编译器会生成class的实例方法列表 methodLists 和属性列表 properties，这两者跟class区别就是在命名规则遵循了公共前缀+类名+category名字">
 <meta property="og:locale" content="Objective-C,Swift,JavaScript">
-<meta property="og:updated_time" content="2019-08-14T07:50:49.528Z">
+<meta property="og:updated_time" content="2019-08-27T07:02:52.133Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Category+NSInvocation通信方案(CTMediator)">
 <meta name="twitter:description" content="CategoryCategory作为iOS开发者肯定不陌生，它的主要作用就是不改变原有类的前提下，动态的给这个类添加一些方法。Category还有很多有点，详情请参考category Category重名方法Category在编译器会生成class的实例方法列表 methodLists 和属性列表 properties，这两者跟class区别就是在命名规则遵循了公共前缀+类名+category名字">
@@ -198,7 +198,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        
+                        <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/gcd/" style="font-size: 10px;">gcd</a> <a href="/tags/timer/" style="font-size: 10px;">timer</a> <a href="/tags/二进制-cocoapods/" style="font-size: 10px;">二进制 cocoapods</a> <a href="/tags/架构设计/" style="font-size: 10px;">架构设计</a> <a href="/tags/架构设计-block/" style="font-size: 10px;">架构设计 block</a>
                     </div>
                 </section>
                 
@@ -306,6 +306,10 @@
         
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构设计/">架构设计</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -330,8 +334,6 @@
     <div class="copyright">
         <p><span>本文标题:</span><a  href="/2016/08/13/Category-NSInvocation通信方案/">Category+NSInvocation通信方案(CTMediator)</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 ZeusZhang 的个人博客">ZeusZhang</a></p>
-        <p><span>发布时间:</span>2016年08月13日 - 00时00分</p>
-        <p><span>最后更新:</span>2019年08月14日 - 15时50分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/08/13/Category-NSInvocation通信方案/" title="Category+NSInvocation通信方案(CTMediator)">http://yoursite.com/2016/08/13/Category-NSInvocation通信方案/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/08/13/Category-NSInvocation通信方案/　　作者: ZeusZhang" title=""></span>
@@ -344,6 +346,15 @@
 
 
 <nav id="article-nav">
+  
+    <a  href="/2019/04/20/iOS知识梳理/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          iOS知识梳理
+        
+      </div>
+    </a>
   
   
     <a  href="/2016/04/08/Cocoapods静态库整理/" id="article-nav-older" class="article-nav-link-wrap">
@@ -432,7 +443,9 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a  href="/2019/04/20/iOS知识梳理/" title="上一篇: iOS知识梳理">
+                <i class="fa fa-angle-left"></i>
+            </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
@@ -441,7 +454,7 @@
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/Category-NSInvocation通信方案/">Category+NSInvocation通信方案(CTMediator)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/Cocoapods静态库整理/">Cocoapods静态库整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/GCD使用总结/">GCD使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/iOS定时器整理对比/">iOS定时器整理对比</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/WKWebView与js的交互/">WKWebView与js交互</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/08/21/循环引用解决方案/">循环引用解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/14/iOS二进制与cocoapods插件开发/">iOS二进制与cocoapods插件开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/20/iOS知识梳理/">iOS知识梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/Category-NSInvocation通信方案/">Category+NSInvocation通信方案(CTMediator)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/Cocoapods静态库整理/">Cocoapods静态库整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/GCD使用总结/">GCD使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/iOS定时器整理对比/">iOS定时器整理对比</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/WKWebView与js的交互/">WKWebView与js交互</a></li></ul>
     
 <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 

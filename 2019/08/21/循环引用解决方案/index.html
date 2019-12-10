@@ -7,20 +7,20 @@
   
   
   
-  <title>WKWebView与js交互 | ZeusZhang</title>
+  <title>循环引用解决方案 | ZeusZhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="WKWebview与UIWebView的对比UIWebView自iOS2开始就有了，而WKWebView在iOS8以上的设备上才可以使用，毫无疑问WKWebView将逐步取代相对笨重的UIWebView。WkWeb的优势：  在性能、稳定性、功能方面有很多大提升 更多的支持HTML5的特性 官宣高达60fps的滚动刷新率以及内置手势 Safari相同的JavaScript引擎 新增加载进度属性等">
-<meta name="keywords" content="zeus,zeuszhang,dobulez,iOS">
+  <meta name="description" content="循环引用return cycle在iOS开发中经常遇到的⚠️；当两个对象相互强引用对方时，无论哪一方调用release方法时，双方的引用计数都还大于等于1，所以不会调用dealloc方法，导致释放代码内存的方法没有执行，形成循环等待，即循环引用。解决方案就是打破任一方的强引用：  使用较多的是weak；声明一个弱引用类型的对象，解除循环引用，weak跟weak类似，当对象被系统回收时，内存地址会被">
+<meta name="keywords" content="架构设计 block">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WKWebView与js交互">
-<meta property="og:url" content="http://yoursite.com/2015/10/20/WKWebView与js的交互/index.html">
+<meta property="og:title" content="循环引用解决方案">
+<meta property="og:url" content="http://yoursite.com/2019/08/21/循环引用解决方案/index.html">
 <meta property="og:site_name" content="ZeusZhang">
-<meta property="og:description" content="WKWebview与UIWebView的对比UIWebView自iOS2开始就有了，而WKWebView在iOS8以上的设备上才可以使用，毫无疑问WKWebView将逐步取代相对笨重的UIWebView。WkWeb的优势：  在性能、稳定性、功能方面有很多大提升 更多的支持HTML5的特性 官宣高达60fps的滚动刷新率以及内置手势 Safari相同的JavaScript引擎 新增加载进度属性等">
+<meta property="og:description" content="循环引用return cycle在iOS开发中经常遇到的⚠️；当两个对象相互强引用对方时，无论哪一方调用release方法时，双方的引用计数都还大于等于1，所以不会调用dealloc方法，导致释放代码内存的方法没有执行，形成循环等待，即循环引用。解决方案就是打破任一方的强引用：  使用较多的是weak；声明一个弱引用类型的对象，解除循环引用，weak跟weak类似，当对象被系统回收时，内存地址会被">
 <meta property="og:locale" content="Objective-C,Swift,JavaScript">
-<meta property="og:updated_time" content="2019-01-24T07:30:26.557Z">
+<meta property="og:updated_time" content="2019-08-21T07:43:04.699Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WKWebView与js交互">
-<meta name="twitter:description" content="WKWebview与UIWebView的对比UIWebView自iOS2开始就有了，而WKWebView在iOS8以上的设备上才可以使用，毫无疑问WKWebView将逐步取代相对笨重的UIWebView。WkWeb的优势：  在性能、稳定性、功能方面有很多大提升 更多的支持HTML5的特性 官宣高达60fps的滚动刷新率以及内置手势 Safari相同的JavaScript引擎 新增加载进度属性等">
+<meta name="twitter:title" content="循环引用解决方案">
+<meta name="twitter:description" content="循环引用return cycle在iOS开发中经常遇到的⚠️；当两个对象相互强引用对方时，无论哪一方调用release方法时，双方的引用计数都还大于等于1，所以不会调用dealloc方法，导致释放代码内存的方法没有执行，形成循环等待，即循环引用。解决方案就是打破任一方的强引用：  使用较多的是weak；声明一个弱引用类型的对象，解除循环引用，weak跟weak类似，当对象被系统回收时，内存地址会被">
   
     <link rel="alternative" href="/atom.xml" title="ZeusZhang" type="application/atom+xml">
   
@@ -277,11 +277,11 @@
         </header>
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-WKWebView与js的交互" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-循环引用解决方案" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2015/10/20/WKWebView与js的交互/" class="article-date">
-      <time datetime="2015-10-19T16:00:00.000Z" itemprop="datePublished">2015-10-20</time>
+      <a  href="/2019/08/21/循环引用解决方案/" class="article-date">
+      <time datetime="2019-08-21T02:46:10.000Z" itemprop="datePublished">2019-08-21</time>
 </a>
 
     </div>
@@ -295,7 +295,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      WKWebView与js交互
+      循环引用解决方案
     </h1>
   
 
@@ -306,6 +306,10 @@
         
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构设计-block/">架构设计 block</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -313,27 +317,25 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="WKWebview与UIWebView的对比"><a href="#WKWebview与UIWebView的对比" class="headerlink" title="WKWebview与UIWebView的对比"></a>WKWebview与UIWebView的对比</h3><p>UIWebView自iOS2开始就有了，而WKWebView在iOS8以上的设备上才可以使用，毫无疑问WKWebView将逐步取代相对笨重的UIWebView。<br>WkWeb的优势：</p>
-<ul>
-<li>在性能、稳定性、功能方面有很多大提升</li>
-<li>更多的支持HTML5的特性</li>
-<li>官宣高达60fps的滚动刷新率以及内置手势</li>
-<li>Safari相同的JavaScript引擎</li>
-<li>新增加载进度属性等 </li>
-</ul>
-<h4 id="加载网页"><a href="#加载网页" class="headerlink" title="加载网页"></a>加载网页</h4><p>加载网页或HTML代码方式与UIWebView相同<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame];</span><br><span class="line">[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@&quot;www.zeuszhang.com&quot;]]];</span><br><span class="line">[self.view addSubView:webView];</span><br></pre></td></tr></table></figure></p>
-<h4 id="加载回调状态"><a href="#加载回调状态" class="headerlink" title="加载回调状态"></a>加载回调状态</h4><p>加载回调状态用来追踪整个家在过程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 页面开始加载时调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 当内容开始返回时调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 页面加载完成之后调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 页面加载失败时调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation</span><br></pre></td></tr></table></figure></p>
-<p>页面跳转的代理方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 接收到服务器跳转请求之后调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 在收到响应后，决定是否跳转</span><br><span class="line">- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler;</span><br><span class="line">// 在发送请求之前，决定是否跳转</span><br><span class="line">- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction</span><br></pre></td></tr></table></figure></p>
-<p>新的WKUIDelegate协议<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//警告框</span><br><span class="line">- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(void (^)())completionHandler;</span><br><span class="line">//确认框</span><br><span class="line">- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler;</span><br><span class="line">//输入框</span><br><span class="line">- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable))completionHandler;</span><br></pre></td></tr></table></figure></p>
-<p><strong><em>注意这几个方法的回调处理不让回crash</em></strong></p>
-<h4 id="动态加载并运行js代码"><a href="#动态加载并运行js代码" class="headerlink" title="动态加载并运行js代码"></a>动态加载并运行js代码</h4><p>客户端内部加载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 图片缩放的js代码</span><br><span class="line">NSString *js = @&quot;var count = document.images.length;for (var i = 0; i &lt; count; i++) &#123;var image = document.images[i];image.style.width=320;&#125;;window.alert(&apos;找到&apos; + count + &apos;张图&apos;);&quot;;</span><br><span class="line">// 根据JS字符串初始化WKUserScript对象</span><br><span class="line">WKUserScript *script = [[WKUserScript alloc] initWithSource:js injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];</span><br><span class="line">// 根据生成的WKUserScript对象，初始化WKWebViewConfiguration</span><br><span class="line">WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];</span><br><span class="line">[config.userContentController addUserScript:script];</span><br><span class="line">_webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:config];</span><br><span class="line">[_webView loadHTMLString:@&quot;&lt;head&gt;&lt;/head&gt;&lt;imgea src=&apos;http://www.nsu.edu.cn/v/2014v3/img/background/3.jpg&apos; /&gt;&quot;baseURL:nil];</span><br><span class="line">[self.view addSubview:_webView];</span><br></pre></td></tr></table></figure></p>
-<p>webview执行js代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//javaScriptString是JS方法名，completionHandler是异步回调block</span><br><span class="line">[self.webView evaluateJavaScript:javaScriptString completionHandler:completionHandler];</span><br></pre></td></tr></table></figure></p>
-<p>js调用app注册的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)addScriptMessageHandler:(id &lt;WKScriptMessageHandler&gt;)scriptMessageHandler name:(NSString *)name;</span><br><span class="line">scriptMessageHandler是代理回调，JS调用name方法后，OC会调用scriptMessageHandler指定的对象。JS在调用OC注册方法的时候要用下面的方式：</span><br><span class="line">window.webkit.messageHandlers.&lt;name&gt;.postMessage(&lt;messageBody&gt;)</span><br></pre></td></tr></table></figure></p>
-<p><strong><em>注意name是方法名，参数需要封装到messageBody中</em></strong></p>
-<p><strong><em>ps这里有一个重点需要注意的地方</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//OC注册供JS调用的方法</span><br><span class="line">[[_webView configuration].userContentController addScriptMessageHandler:self name:@&quot;closeMe&quot;];</span><br><span class="line">//OC在JS调用方法做的处理</span><br><span class="line">- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;JS 调用了 %@ 方法，传回参数 %@&quot;,message.name,message.body);</span><br><span class="line">&#125;</span><br><span class="line">//JS调用</span><br><span class="line">    window.webkit.messageHandlers.closeMe.postMessage(null);</span><br></pre></td></tr></table></figure></p>
-<p>在上述客户端中处理时，会发现self的dealloc方法没有调用，我在这里的解决方案是在当前vc销毁时，手动调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.wkWebView.configuration.userContentController addScriptMessageHandler:self name:@&quot;&quot;];</span><br></pre></td></tr></table></figure></p>
-<p>以移除通知的监听方式。</p>
-<p><strong><em>pps WKWebViewConfiguration也存在内存泄漏问题</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WKWebViewConfiguration*config = [[WKWebViewConfigurationalloc]init];</span><br><span class="line">config.selectionGranularity = WKSelectionGranularityCharacter;</span><br><span class="line">WKWebView  *webView= [[WKWebViewalloc]initWithFrame:CGRectZero configuration:config];</span><br></pre></td></tr></table></figure></p>
+        <h3 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h3><p>return cycle在iOS开发中经常遇到的⚠️；当两个对象相互强引用对方时，无论哪一方调用release方法时，双方的引用计数都还大于等于1，所以不会调用dealloc方法，导致释放代码内存的方法没有执行，形成循环等待，即循环引用。<br>解决方案就是打破任一方的强引用：</p>
+<ol>
+<li>使用较多的是<strong>weak；声明一个弱引用类型的对象，解除循环引用，</strong>weak跟weak类似，当对象被系统回收时，内存地址会被指向nil，对nil的任何操作都被视为无效</li>
+<li>在较老的iOS版本中，我们也可以使用__unsafe_unretained标识符解除循环引用，但存在一定的不安全性</li>
+<li>@weakify和@strongify,这个是github上的开源库libextobjc，在EXTScope.h中有关于weak和storng的宏定义</li>
+<li>还有一种方法就是手动将某一对象置为nil，但是下次在使用之前必须重新赋值否则会报错<br>在这里个人比较推荐第3种方案，前面方案都有其局限性和不确定性。</li>
+</ol>
+<h3 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h3><p>Blocks是C语言的扩充功能。用一句话表示就是：带有自动变量（局部变量）的匿名函数。<br>而Blocks中导致错误的最多的问题就是循环引用导致的内存泄漏等等问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedof void(^CallBack)(void);</span><br><span class="line">#class</span><br><span class="line">@property (nonatomic, copy) CallBack callBack;     </span><br><span class="line"></span><br><span class="line">self.callBack = ^&#123;</span><br><span class="line">    self.view.backgroundColor = [UIColor redColor];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">self.callBack();</span><br></pre></td></tr></table></figure></p>
+<p>上面这种使用方法就是个典型的循环引用，当前VC执行pop时由于这个循环引用导致内存并不会被释放而产生内存泄漏；而根据之前提到的解决方案就是</p>
+<ol>
+<li>__weak typeof(self) weakSelf = self;</li>
+<li>__unsafe_unretained typeof(self) weakSelf = self;</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">self.callBack = ^&#123;</span><br><span class="line">    @strongify(self);</span><br><span class="line">    self....</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>self.callBack = nil;</p>
+</li>
+</ol>
+<p>第3中方案基本完美解决了循环引用问题，但是作为一个更有追求开发者，当你在向外提供API时，所有组件的使用方都不需要考虑循环引用才是最优的API设计，在这里我们修改一下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">typedof void(^CallBack)(id target);</span><br><span class="line">#class</span><br><span class="line">@property (nonatomic, copy) CallBack callBack;     </span><br><span class="line"></span><br><span class="line">self.callBack = ^(id target)&#123;</span><br><span class="line">    if ([target isKindOfClass:[Class class]]) &#123;</span><br><span class="line">        ((Class *)target).view.backgroundColor = [UIColor redColor];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">self.callBack(self);</span><br></pre></td></tr></table></figure></p>
+<p>我们将block中要用到的外部对象用参数的形式传递到block中，这样就不会造成循环引用了。</p>
 
       
     </div>
@@ -342,11 +344,11 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2015/10/20/WKWebView与js的交互/">WKWebView与js交互</a></p>
+        <p><span>本文标题:</span><a  href="/2019/08/21/循环引用解决方案/">循环引用解决方案</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 ZeusZhang 的个人博客">ZeusZhang</a></p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2015/10/20/WKWebView与js的交互/" title="WKWebView与js交互">http://yoursite.com/2015/10/20/WKWebView与js的交互/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2015/10/20/WKWebView与js的交互/　　作者: ZeusZhang" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/08/21/循环引用解决方案/" title="循环引用解决方案">http://yoursite.com/2019/08/21/循环引用解决方案/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/08/21/循环引用解决方案/　　作者: ZeusZhang" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -357,15 +359,11 @@
 
 <nav id="article-nav">
   
-    <a  href="/2016/01/21/iOS定时器整理对比/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          iOS定时器整理对比
-        
-      </div>
-    </a>
   
+    <a  href="/2019/08/14/iOS二进制与cocoapods插件开发/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS二进制与cocoapods插件开发</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
   
 </nav>
 
@@ -375,7 +373,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#WKWebview与UIWebView的对比"><span class="toc-number">1.</span> <span class="toc-text">WKWebview与UIWebView的对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#加载网页"><span class="toc-number">1.1.</span> <span class="toc-text">加载网页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#加载回调状态"><span class="toc-number">1.2.</span> <span class="toc-text">加载回调状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态加载并运行js代码"><span class="toc-number">1.3.</span> <span class="toc-text">动态加载并运行js代码</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#循环引用"><span class="toc-number">1.</span> <span class="toc-text">循环引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Blocks"><span class="toc-number">2.</span> <span class="toc-text">Blocks</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -448,13 +446,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2016/01/21/iOS定时器整理对比/" title="上一篇: iOS定时器整理对比">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a  href="/2019/08/14/iOS二进制与cocoapods插件开发/" title="下一篇: iOS二进制与cocoapods插件开发">
+                <i class="fa fa-angle-right"></i>
+            </a>
         
     </div>
     <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/08/21/循环引用解决方案/">循环引用解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/14/iOS二进制与cocoapods插件开发/">iOS二进制与cocoapods插件开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/20/iOS知识梳理/">iOS知识梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/Category-NSInvocation通信方案/">Category+NSInvocation通信方案(CTMediator)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/Cocoapods静态库整理/">Cocoapods静态库整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/GCD使用总结/">GCD使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/iOS定时器整理对比/">iOS定时器整理对比</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/WKWebView与js的交互/">WKWebView与js交互</a></li></ul>

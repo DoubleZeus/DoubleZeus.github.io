@@ -4,23 +4,24 @@
   <meta charset="utf-8">
   <meta name="baidu-site-verification" content="L6Lm9d5Crl"/>
   
+   
+    <meta name="keywords" content="gcd" />
   
   
   
-  <title>Cocoapods静态库整理 | ZeusZhang</title>
+  <title>Tag: gcd | ZeusZhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#为何选择CocoaPods做静态库 公司项目框架比较大，为了以后业务发展，需要将项目分包，所以将项目的通用工具、网络层与基类封成一个基础包；开始准备将这个基础包打成framework，但考虑到以后业务也需要打包时不好引入基础包的依赖，遂将基础包做成了一个私有库供团队维护与后期开发。 Cocoapods创建私有库 1.创建私有repo 在你的git服务器上创建一个仓库。因为github上私有仓库是">
-<meta name="keywords" content="cocoapods">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Cocoapods静态库整理">
-<meta property="og:url" content="http://yoursite.com/2016/04/08/Cocoapods静态库整理/index.html">
+  <meta name="description" content="zeuszhang blog">
+<meta name="keywords" content="zeus,zeuszhang,dobulez,iOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ZeusZhang">
+<meta property="og:url" content="http://yoursite.com/tags/gcd/index.html">
 <meta property="og:site_name" content="ZeusZhang">
-<meta property="og:description" content="#为何选择CocoaPods做静态库 公司项目框架比较大，为了以后业务发展，需要将项目分包，所以将项目的通用工具、网络层与基类封成一个基础包；开始准备将这个基础包打成framework，但考虑到以后业务也需要打包时不好引入基础包的依赖，遂将基础包做成了一个私有库供团队维护与后期开发。 Cocoapods创建私有库 1.创建私有repo 在你的git服务器上创建一个仓库。因为github上私有仓库是">
+<meta property="og:description" content="zeuszhang blog">
 <meta property="og:locale" content="Objective-C,Swift,JavaScript">
-<meta property="og:updated_time" content="2019-08-27T07:02:50.615Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Cocoapods静态库整理">
-<meta name="twitter:description" content="#为何选择CocoaPods做静态库 公司项目框架比较大，为了以后业务发展，需要将项目分包，所以将项目的通用工具、网络层与基类封成一个基础包；开始准备将这个基础包打成framework，但考虑到以后业务也需要打包时不好引入基础包的依赖，遂将基础包做成了一个私有库供团队维护与后期开发。 Cocoapods创建私有库 1.创建私有repo 在你的git服务器上创建一个仓库。因为github上私有仓库是">
+<meta name="twitter:title" content="ZeusZhang">
+<meta name="twitter:description" content="zeuszhang blog">
   
     <link rel="alternative" href="/atom.xml" title="ZeusZhang" type="application/atom+xml">
   
@@ -45,9 +46,9 @@
           fancybox: true,
           animate: true,
           isHome: false,
-          isPost: true,
+          isPost: false,
           isArchive: false,
-          isTag: false,
+          isTag: true,
           isCategory: false,
           open_in_new: false
       }
@@ -277,266 +278,56 @@
         </header>
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Cocoapods静态库整理" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap">
   
-    <div class="article-meta">
-      <a  href="/2016/04/08/Cocoapods静态库整理/" class="article-date">
-      <time datetime="2016-04-07T16:00:00.000Z" itemprop="datePublished">2016-04-08</time>
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a  href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+          <div class="article-meta">
+              <a  href="/2016/03/03/GCD使用总结/" class="archive-article-date">
+      <time datetime="2016-03-02T16:00:00.000Z" itemprop="datePublished">03-03</time>
 </a>
 
-    </div>
+        </div>
+         
   
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Cocoapods静态库整理
+    <h1 itemprop="name">
+      <a  class="archive-article-title" href="/2016/03/03/GCD使用总结/">GCD使用总结</a>
     </h1>
   
 
 
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocoapods/">cocoapods</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
+        <div class="article-info info-on-archive">
           
-        <p>#为何选择CocoaPods做静态库</p>
-<p>公司项目框架比较大，为了以后业务发展，需要将项目分包，所以将项目的通用工具、网络层与基类封成一个基础包；开始准备将这个基础包打成framework，但考虑到以后业务也需要打包时不好引入基础包的依赖，遂将基础包做成了一个私有库供团队维护与后期开发。</p>
-<p>Cocoapods创建私有库</p>
-<p>1.创建私有repo</p>
-<p>在你的git服务器上创建一个仓库。因为github上私有仓库是收费的，大家可以自己选择git服务器。</p>
-<p>创建好仓库以后我们可以执行：</p>
-<p>pod repo add [repo_name] [repo_url]<br>repo_name使我们的仓库的名称，repo_url为仓库地址(ps:优先使用https地址，使用ssh地址时需要配置git的SSH keys)，成功后可以前往文件夹 ~/.cocoapods/repos会看到思库内容</p>
-<p>2.创建自己的Cocoapods依赖库</p>
-<p>1.首先在git上创建一个仓库，记得添加license文件和remamd文件。</p>
-<p>2.clone仓库到本地</p>
-<p>cd ~</p>
-<p>git clone [repo_url]<br>3.向本地仓库提交文件</p>
-<p>新建一个类似文件夹目录结构，将代码.h.w或者.swift文件放在Calssses文件夹中</p>
-<p>在Assets文件夹下放入一个bundle资源文件包</p>
-<p>4.生成podspec文件并编辑</p>
-<p>cd ~/[project_name]</p>
-<p>pod spec create [project_name]<br>打开该文件修改内容为</p>
-<p>s.source表示项目在git上的地址</p>
-<p>s.source_files表示代码文件地址</p>
-<p>s.resources表示资源文件地址</p>
-<p>s.frameworks表示对系统库的依赖</p>
-<p>s.depency表示对第三方库的依赖<br>5.Demo工程</p>
-<p>你可以在该文件下添加demo指导别人使用</p>
-<p>3.将代码提交到git</p>
-<p>git add .</p>
-<p>git commit -a -m ‘first’</p>
-<p>git tag -a 0.1.0 -m ‘first’ (这个tag要与版本号一致）<br>4.验证.podspec文件</p>
-<p>pod lib lint xxx.podspec –allow-warnings –use-libraries<br>验证通过后只要将代码推送到git仓库上就可以了</p>
-<p>5.将podspec给到私有repo</p>
-<p>pod repo push [repo_name] [xxx.podspec]<br>成功后就可以去本地repo地址查看</p>
-<p>Cocoapods打包带私有库依赖的framework</p>
-<p>pod lib create GTEDXCalendar</p>
-<p>What language do you want to use?? [ Swift / ObjC ]</p>
-<p>ObjC</p>
-<p>Would you like to include a demo application with your library?[ Yes / No]</p>
-<p>No</p>
-<p>Which testing frameworks will you use ? [ Specta / Kiwi  / None ]</p>
-<p>None</p>
-<p>Would you like to do view based testing? [ Yes / No ]</p>
-<p>No</p>
-<p>What is your class prefix ?</p>
-<p>GTEDX<br>成功后打开GTEDXCalendar.podspec文件修改</p>
-<p>修改方法参考上文</p>
-<p>cd ~/GTEDXCalendar/Example</p>
-<p>vim Podfile</p>
-<p>在头上添加红圈标注的代码</p>
-<p>source ‘<a href="https://github.com/CocoaPods/Specs.git&#39;" target="_blank" rel="noopener">https://github.com/CocoaPods/Specs.git&#39;</a></p>
-<p>source private #私有仓库git地址<br>然后执行pod install</p>
-<p>将源文件与资源数据放入对应的Classes与Assets文件中</p>
-<p>提交源码并打上tag</p>
-<p>验证.podspec文件</p>
-<p>pod lib lint GTEDXCalendar.podspec –allow-warnings –use-libraries –sources = private , <a href="https://github.com/CocoaPods/Specs.git" target="_blank" rel="noopener">https://github.com/CocoaPods/Specs.git</a><br>安装插件</p>
-<p>sudo gem install coocapods-packager<br>打包</p>
-<p>pod package GTEDXCalendar.podspec –force –spec-sources=private , <a href="https://github.com/CocoaPods/Specs.git" target="_blank" rel="noopener">https://github.com/CocoaPods/Specs.git</a><br>使用framework</p>
-<p>新建一个工程，新建Podfile文件</p>
-<p>在podfile文件中添加source地址</p>
-<p>将私有库中与framework的依赖都加入podfile文件中（保持版本一致）</p>
-<p>然后将framework加入项目并将framework内部的bundle也拖入项目</p>
-<p>参考</p>
-<p>使用Cocoapods制作静态库</p>
 
-      
+          
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gcd/">gcd</a></li></ul>
     </div>
-    
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
-  
-    
-    <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2016/04/08/Cocoapods静态库整理/">Cocoapods静态库整理</a></p>
-        <p><span>文章作者:</span><a  href="/" title="访问 ZeusZhang 的个人博客">ZeusZhang</a></p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/04/08/Cocoapods静态库整理/" title="Cocoapods静态库整理">http://yoursite.com/2016/04/08/Cocoapods静态库整理/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/04/08/Cocoapods静态库整理/　　作者: ZeusZhang" title=""></span>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
-        </p>
-    </div>
-
-
-
-<nav id="article-nav">
-  
-    <a  href="/2016/08/13/Category-NSInvocation通信方案/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Category+NSInvocation通信方案(CTMediator)
-        
-      </div>
-    </a>
-  
-  
-    <a  href="/2016/03/03/GCD使用总结/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">GCD使用总结</div>
-      <strong class="article-nav-caption">></strong>
-    </a>
-  
-</nav>
-
-
-  
 </article>
-
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    
-</div>
-<style>
-    .left-col .switch-btn {
-        display: none;
-    }
-    .left-col .switch-area {
-        display: none;
-    }
-</style>
-<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-
-<script>
-    var valueHide = "隐藏目录";
-    var valueShow = "显示目录";
-    if ($(".left-col").is(":hidden")) {
-        $("#tocButton").attr("value", valueShow);
-    }
-    $("#tocButton").click(function() {
-        if ($("#toc").is(":hidden")) {
-            $("#tocButton").attr("value", valueHide);
-            $("#toc").slideDown(320);
-            $(".switch-btn, .switch-area").fadeOut(300);
-        }
-        else {
-            $("#tocButton").attr("value", valueShow);
-            $("#toc").slideUp(350);
-            $(".switch-btn, .switch-area").fadeIn(500);
-        }
-    })
-    if ($(".toc").length < 1) {
-        $("#toc, #tocButton").hide();
-        $(".switch-btn, .switch-area").show();
-    }
-</script>
-
-
-
-
-<div class="bdsharebuttonbox">
-	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
-	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
-	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
-	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
-	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
-	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
-</div>
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-
-
-
+  
+  
+    </div></section>
+  
 
     
-        <section class="changyan" id="comments">
-  <!--<div id="uyan_frame"></div>-->
-  <div id="SOHUCS"></div>
-  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
-  <script type="text/javascript">
-    window.changyan.api.config({
-      appid: 'xxxx',
-      conf: 'xxxxxxxxx'
-    });
-  </script>
-</section>
-    
 
-
-
-    <div class="scroll" id="post-nav-button">
-        
-            <a  href="/2016/08/13/Category-NSInvocation通信方案/" title="上一篇: Category+NSInvocation通信方案(CTMediator)">
-                <i class="fa fa-angle-left"></i>
-            </a>
-        
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
-        
-            <a  href="/2016/03/03/GCD使用总结/" title="下一篇: GCD使用总结">
-                <i class="fa fa-angle-right"></i>
-            </a>
-        
-    </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/08/21/循环引用解决方案/">循环引用解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/14/iOS二进制与cocoapods插件开发/">iOS二进制与cocoapods插件开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/20/iOS知识梳理/">iOS知识梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/Category-NSInvocation通信方案/">Category+NSInvocation通信方案(CTMediator)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/Cocoapods静态库整理/">Cocoapods静态库整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/GCD使用总结/">GCD使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/iOS定时器整理对比/">iOS定时器整理对比</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/WKWebView与js的交互/">WKWebView与js交互</a></li></ul>
-    
-<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-
-    <script>
-        $(".post-list").addClass("toc-article");
-        // $(".post-list-item a").attr("target","_blank");
-        $("#post-nav-button > a:nth-child(2)").click(function() {
-            $(".fa-bars, .fa-times").toggle();
-            $(".post-list").toggle(300);
-            if ($(".toc").length > 0) {
-                $("#toc, #tocButton").toggle(200, function() {
-                    if ($(".switch-area").is(":visible")) {
-                        $("#toc, .switch-btn, .switch-area").toggle();
-                        $("#tocButton").attr("value", valueHide);
-                        }
-                    })
-            }
-            else {
-                $(".switch-btn, .switch-area").fadeToggle(300);
-            }
-        })
-    </script>
-
-
-
-
-    <script>
-        
-    </script>
 
 </div>
       <footer id="footer">
@@ -628,6 +419,18 @@ ga('send', 'pageview');
         };
     })
 </script>
+
+    <button class="hide-labels">TAG 开关</button>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("button").click(function() {
+                $(".article-info").toggle(200);
+            });
+        });
+    </script>
 
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>

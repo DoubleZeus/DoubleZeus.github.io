@@ -7,20 +7,20 @@
   
   
   
-  <title>WKWebView与js交互 | ZeusZhang</title>
+  <title>iOS二进制与cocoapods插件开发 | ZeusZhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="WKWebview与UIWebView的对比UIWebView自iOS2开始就有了，而WKWebView在iOS8以上的设备上才可以使用，毫无疑问WKWebView将逐步取代相对笨重的UIWebView。WkWeb的优势：  在性能、稳定性、功能方面有很多大提升 更多的支持HTML5的特性 官宣高达60fps的滚动刷新率以及内置手势 Safari相同的JavaScript引擎 新增加载进度属性等">
-<meta name="keywords" content="zeus,zeuszhang,dobulez,iOS">
+  <meta name="description" content="二进制随着项目开发越来越臃肿，二进制化已经无可避免，它可以极大的加速项目编译过程，缩减编译时间，也可以在我们对外部开发提供SDK时，保护我们的源文件内容。 库基于组件化开发或者SDK分发，我们可以把组件做成静态库。iOS中静态库形式是.a与.framework；动态库的形式是.dylib和.framework。关于.framework，iOS不允许我们建立自己的动态.framework，但系统提供">
+<meta name="keywords" content="二进制 cocoapods">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WKWebView与js交互">
-<meta property="og:url" content="http://yoursite.com/2015/10/20/WKWebView与js的交互/index.html">
+<meta property="og:title" content="iOS二进制与cocoapods插件开发">
+<meta property="og:url" content="http://yoursite.com/2019/08/14/iOS二进制与cocoapods插件开发/index.html">
 <meta property="og:site_name" content="ZeusZhang">
-<meta property="og:description" content="WKWebview与UIWebView的对比UIWebView自iOS2开始就有了，而WKWebView在iOS8以上的设备上才可以使用，毫无疑问WKWebView将逐步取代相对笨重的UIWebView。WkWeb的优势：  在性能、稳定性、功能方面有很多大提升 更多的支持HTML5的特性 官宣高达60fps的滚动刷新率以及内置手势 Safari相同的JavaScript引擎 新增加载进度属性等">
+<meta property="og:description" content="二进制随着项目开发越来越臃肿，二进制化已经无可避免，它可以极大的加速项目编译过程，缩减编译时间，也可以在我们对外部开发提供SDK时，保护我们的源文件内容。 库基于组件化开发或者SDK分发，我们可以把组件做成静态库。iOS中静态库形式是.a与.framework；动态库的形式是.dylib和.framework。关于.framework，iOS不允许我们建立自己的动态.framework，但系统提供">
 <meta property="og:locale" content="Objective-C,Swift,JavaScript">
-<meta property="og:updated_time" content="2019-01-24T07:30:26.557Z">
+<meta property="og:updated_time" content="2019-08-27T07:02:44.189Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WKWebView与js交互">
-<meta name="twitter:description" content="WKWebview与UIWebView的对比UIWebView自iOS2开始就有了，而WKWebView在iOS8以上的设备上才可以使用，毫无疑问WKWebView将逐步取代相对笨重的UIWebView。WkWeb的优势：  在性能、稳定性、功能方面有很多大提升 更多的支持HTML5的特性 官宣高达60fps的滚动刷新率以及内置手势 Safari相同的JavaScript引擎 新增加载进度属性等">
+<meta name="twitter:title" content="iOS二进制与cocoapods插件开发">
+<meta name="twitter:description" content="二进制随着项目开发越来越臃肿，二进制化已经无可避免，它可以极大的加速项目编译过程，缩减编译时间，也可以在我们对外部开发提供SDK时，保护我们的源文件内容。 库基于组件化开发或者SDK分发，我们可以把组件做成静态库。iOS中静态库形式是.a与.framework；动态库的形式是.dylib和.framework。关于.framework，iOS不允许我们建立自己的动态.framework，但系统提供">
   
     <link rel="alternative" href="/atom.xml" title="ZeusZhang" type="application/atom+xml">
   
@@ -277,11 +277,11 @@
         </header>
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-WKWebView与js的交互" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-iOS二进制与cocoapods插件开发" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a  href="/2015/10/20/WKWebView与js的交互/" class="article-date">
-      <time datetime="2015-10-19T16:00:00.000Z" itemprop="datePublished">2015-10-20</time>
+      <a  href="/2019/08/14/iOS二进制与cocoapods插件开发/" class="article-date">
+      <time datetime="2019-08-14T08:58:31.000Z" itemprop="datePublished">2019-08-14</time>
 </a>
 
     </div>
@@ -295,7 +295,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      WKWebView与js交互
+      iOS二进制与cocoapods插件开发
     </h1>
   
 
@@ -306,6 +306,10 @@
         
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/二进制-cocoapods/">二进制 cocoapods</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -313,27 +317,73 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="WKWebview与UIWebView的对比"><a href="#WKWebview与UIWebView的对比" class="headerlink" title="WKWebview与UIWebView的对比"></a>WKWebview与UIWebView的对比</h3><p>UIWebView自iOS2开始就有了，而WKWebView在iOS8以上的设备上才可以使用，毫无疑问WKWebView将逐步取代相对笨重的UIWebView。<br>WkWeb的优势：</p>
-<ul>
-<li>在性能、稳定性、功能方面有很多大提升</li>
-<li>更多的支持HTML5的特性</li>
-<li>官宣高达60fps的滚动刷新率以及内置手势</li>
-<li>Safari相同的JavaScript引擎</li>
-<li>新增加载进度属性等 </li>
-</ul>
-<h4 id="加载网页"><a href="#加载网页" class="headerlink" title="加载网页"></a>加载网页</h4><p>加载网页或HTML代码方式与UIWebView相同<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame];</span><br><span class="line">[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@&quot;www.zeuszhang.com&quot;]]];</span><br><span class="line">[self.view addSubView:webView];</span><br></pre></td></tr></table></figure></p>
-<h4 id="加载回调状态"><a href="#加载回调状态" class="headerlink" title="加载回调状态"></a>加载回调状态</h4><p>加载回调状态用来追踪整个家在过程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 页面开始加载时调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 当内容开始返回时调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 页面加载完成之后调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 页面加载失败时调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation</span><br></pre></td></tr></table></figure></p>
-<p>页面跳转的代理方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 接收到服务器跳转请求之后调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 在收到响应后，决定是否跳转</span><br><span class="line">- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler;</span><br><span class="line">// 在发送请求之前，决定是否跳转</span><br><span class="line">- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction</span><br></pre></td></tr></table></figure></p>
-<p>新的WKUIDelegate协议<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//警告框</span><br><span class="line">- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(void (^)())completionHandler;</span><br><span class="line">//确认框</span><br><span class="line">- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler;</span><br><span class="line">//输入框</span><br><span class="line">- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable))completionHandler;</span><br></pre></td></tr></table></figure></p>
-<p><strong><em>注意这几个方法的回调处理不让回crash</em></strong></p>
-<h4 id="动态加载并运行js代码"><a href="#动态加载并运行js代码" class="headerlink" title="动态加载并运行js代码"></a>动态加载并运行js代码</h4><p>客户端内部加载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 图片缩放的js代码</span><br><span class="line">NSString *js = @&quot;var count = document.images.length;for (var i = 0; i &lt; count; i++) &#123;var image = document.images[i];image.style.width=320;&#125;;window.alert(&apos;找到&apos; + count + &apos;张图&apos;);&quot;;</span><br><span class="line">// 根据JS字符串初始化WKUserScript对象</span><br><span class="line">WKUserScript *script = [[WKUserScript alloc] initWithSource:js injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];</span><br><span class="line">// 根据生成的WKUserScript对象，初始化WKWebViewConfiguration</span><br><span class="line">WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];</span><br><span class="line">[config.userContentController addUserScript:script];</span><br><span class="line">_webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:config];</span><br><span class="line">[_webView loadHTMLString:@&quot;&lt;head&gt;&lt;/head&gt;&lt;imgea src=&apos;http://www.nsu.edu.cn/v/2014v3/img/background/3.jpg&apos; /&gt;&quot;baseURL:nil];</span><br><span class="line">[self.view addSubview:_webView];</span><br></pre></td></tr></table></figure></p>
-<p>webview执行js代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//javaScriptString是JS方法名，completionHandler是异步回调block</span><br><span class="line">[self.webView evaluateJavaScript:javaScriptString completionHandler:completionHandler];</span><br></pre></td></tr></table></figure></p>
-<p>js调用app注册的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)addScriptMessageHandler:(id &lt;WKScriptMessageHandler&gt;)scriptMessageHandler name:(NSString *)name;</span><br><span class="line">scriptMessageHandler是代理回调，JS调用name方法后，OC会调用scriptMessageHandler指定的对象。JS在调用OC注册方法的时候要用下面的方式：</span><br><span class="line">window.webkit.messageHandlers.&lt;name&gt;.postMessage(&lt;messageBody&gt;)</span><br></pre></td></tr></table></figure></p>
-<p><strong><em>注意name是方法名，参数需要封装到messageBody中</em></strong></p>
-<p><strong><em>ps这里有一个重点需要注意的地方</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//OC注册供JS调用的方法</span><br><span class="line">[[_webView configuration].userContentController addScriptMessageHandler:self name:@&quot;closeMe&quot;];</span><br><span class="line">//OC在JS调用方法做的处理</span><br><span class="line">- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;JS 调用了 %@ 方法，传回参数 %@&quot;,message.name,message.body);</span><br><span class="line">&#125;</span><br><span class="line">//JS调用</span><br><span class="line">    window.webkit.messageHandlers.closeMe.postMessage(null);</span><br></pre></td></tr></table></figure></p>
-<p>在上述客户端中处理时，会发现self的dealloc方法没有调用，我在这里的解决方案是在当前vc销毁时，手动调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.wkWebView.configuration.userContentController addScriptMessageHandler:self name:@&quot;&quot;];</span><br></pre></td></tr></table></figure></p>
-<p>以移除通知的监听方式。</p>
-<p><strong><em>pps WKWebViewConfiguration也存在内存泄漏问题</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WKWebViewConfiguration*config = [[WKWebViewConfigurationalloc]init];</span><br><span class="line">config.selectionGranularity = WKSelectionGranularityCharacter;</span><br><span class="line">WKWebView  *webView= [[WKWebViewalloc]initWithFrame:CGRectZero configuration:config];</span><br></pre></td></tr></table></figure></p>
+        <h3 id="二进制"><a href="#二进制" class="headerlink" title="二进制"></a>二进制</h3><p>随着项目开发越来越臃肿，二进制化已经无可避免，它可以极大的加速项目编译过程，缩减编译时间，也可以在我们对外部开发提供SDK时，保护我们的源文件内容。</p>
+<h4 id="库"><a href="#库" class="headerlink" title="库"></a>库</h4><p>基于组件化开发或者SDK分发，我们可以把组件做成静态库。iOS中静态库形式是.a与.framework；动态库的形式是.dylib和.framework。关于.framework，iOS不允许我们建立自己的动态.framework，但系统提供的.framework是动态库.</p>
+<h4 id="静态库与动态库的区别"><a href="#静态库与动态库的区别" class="headerlink" title="静态库与动态库的区别"></a>静态库与动态库的区别</h4><ol>
+<li>静态库：链接时完整的拷贝至可执行文件中，被多次使用就会有多份冗余拷贝。</li>
+<li>动态库：链接时不复制，程序运行时由系统动态加载到内存中，供程序调用，系统只加载一次，多个程序公用，节省内存。</li>
+</ol>
+<h4 id="a与-framework的区别"><a href="#a与-framework的区别" class="headerlink" title=".a与.framework的区别"></a>.a与.framework的区别</h4><ol>
+<li>.a是纯二进制文件，.framework中除了有二进制文件还有资源文件</li>
+<li>.a文件不能直接使用，需要配合.h文件配合；.framework可以直接使用，因为他本身包含了.h和资源</li>
+<li>.a + .h + source = .framework<br><strong><em>建议使用.framework</em></strong></li>
+</ol>
+<h3 id="打包二进制文件"><a href="#打包二进制文件" class="headerlink" title="打包二进制文件"></a>打包二进制文件</h3><p>制作二进制包主要有两种方法</p>
+<ol>
+<li>通过xcodebuild创建对应的二进制工程，然后分别生成模拟器下与真机环境下的二进制文件，最后将两个二进制文件合并成最终需要的文件，过程不再赘述。</li>
+<li>另外就是通过cocoapods-packager生成二进制文件</li>
+</ol>
+<h4 id="cocoapods-packager"><a href="#cocoapods-packager" class="headerlink" title="cocoapods-packager"></a>cocoapods-packager</h4><p><a href="https://github.com/CocoaPods/cocoapods-packager" target="_blank" rel="noopener">cocoapods-packager</a>是cocoapods的自动化打包插件，可以用来打包生成动态库或者静态库。<br>部分参数配置如下:</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> –force</td>
+<td style="text-align:center">强制覆盖之前生成的库</td>
+</tr>
+<tr>
+<td> –embedded</td>
+<td style="text-align:center">生成静态.framework</td>
+</tr>
+<tr>
+<td> –library</td>
+<td style="text-align:center">生成静态.a</td>
+</tr>
+<tr>
+<td> –dynamic</td>
+<td style="text-align:center">生成动态.framework</td>
+</tr>
+<tr>
+<td> –bundle-identifier</td>
+<td style="text-align:center">动态.framework需要签名所以要bundleID </td>
+</tr>
+<tr>
+<td> –configuration</td>
+<td style="text-align:center">表示生成的库的状态默认是release。–configuration=Debug </td>
+</tr>
+<tr>
+<td> –no-mangle</td>
+<td style="text-align:center">表示不使用name mangling技术，pod package默认使用这个技术。</td>
+</tr>
+</tbody>
+</table>
+<p><strong><em>如果你的库有其他的依赖就必须要使用name mangling技术，不然打二进制包会报错。</em></strong></p>
+<p>相应的打包步骤如下</p>
+<ol>
+<li>代码库打tag</li>
+<li>提交源码到源码repo仓库</li>
+<li>执行pod packager命令，将打包成功的framework存放到指定位置</li>
+<li>重打tag</li>
+<li>提交framework到二进制repo仓库</li>
+</ol>
+<p>这里能看到就算你准备好了二进制包，但是你还是需要提交源码文件的；因为团队本身开发时迭代升级过程，肯定需要源码调试等等问题，所以我们要达到源码和二进制随意切换的目标，所以需要两套repo存放相同pod的相同tag的不同状态。也可以看出来上面的操作非常繁琐，建议结合gitlab的CI去操作。</p>
+<h4 id="cocopods-plugins"><a href="#cocopods-plugins" class="headerlink" title="cocopods plugins"></a>cocopods plugins</h4><p>cocoapods-plugins是一个Ruby gem,当我们为cocoapods开发插件时，需要安装这个gem。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install cocoapods-plugins</span><br></pre></td></tr></table></figure></p>
+<p>在这里我们为上面的3、5的步骤提供插件开发实现，插件开发主要作用在于二进制与源码切换；<br>比如我们需要指定某几个pod为源码，或者全部使用源码等等具体实现时，可以再Podfile中修改指定的标志用以达到随意切换的目的，方便开发过程中的调试，加快编译速度。<br>二进制化辅助插件<a href="https://github.com/tripleCC/cocoapods-bin" target="_blank" rel="noopener">cocoapods-bin</a>具体实现可以看看这个。</p>
 
       
     </div>
@@ -342,11 +392,11 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a  href="/2015/10/20/WKWebView与js的交互/">WKWebView与js交互</a></p>
+        <p><span>本文标题:</span><a  href="/2019/08/14/iOS二进制与cocoapods插件开发/">iOS二进制与cocoapods插件开发</a></p>
         <p><span>文章作者:</span><a  href="/" title="访问 ZeusZhang 的个人博客">ZeusZhang</a></p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2015/10/20/WKWebView与js的交互/" title="WKWebView与js交互">http://yoursite.com/2015/10/20/WKWebView与js的交互/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2015/10/20/WKWebView与js的交互/　　作者: ZeusZhang" title=""></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/08/14/iOS二进制与cocoapods插件开发/" title="iOS二进制与cocoapods插件开发">http://yoursite.com/2019/08/14/iOS二进制与cocoapods插件开发/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/08/14/iOS二进制与cocoapods插件开发/　　作者: ZeusZhang" title=""></span>
         </p>
         <p>
             <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
@@ -357,15 +407,20 @@
 
 <nav id="article-nav">
   
-    <a  href="/2016/01/21/iOS定时器整理对比/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a  href="/2019/08/21/循环引用解决方案/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          iOS定时器整理对比
+          循环引用解决方案
         
       </div>
     </a>
   
+  
+    <a  href="/2019/04/20/iOS知识梳理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS知识梳理</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
   
 </nav>
 
@@ -375,7 +430,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#WKWebview与UIWebView的对比"><span class="toc-number">1.</span> <span class="toc-text">WKWebview与UIWebView的对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#加载网页"><span class="toc-number">1.1.</span> <span class="toc-text">加载网页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#加载回调状态"><span class="toc-number">1.2.</span> <span class="toc-text">加载回调状态</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动态加载并运行js代码"><span class="toc-number">1.3.</span> <span class="toc-text">动态加载并运行js代码</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#二进制"><span class="toc-number">1.</span> <span class="toc-text">二进制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#库"><span class="toc-number">1.1.</span> <span class="toc-text">库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#静态库与动态库的区别"><span class="toc-number">1.2.</span> <span class="toc-text">静态库与动态库的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#a与-framework的区别"><span class="toc-number">1.3.</span> <span class="toc-text">.a与.framework的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打包二进制文件"><span class="toc-number">2.</span> <span class="toc-text">打包二进制文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cocoapods-packager"><span class="toc-number">2.1.</span> <span class="toc-text">cocoapods-packager</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cocopods-plugins"><span class="toc-number">2.2.</span> <span class="toc-text">cocopods plugins</span></a></li></ol></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -448,13 +503,15 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a  href="/2016/01/21/iOS定时器整理对比/" title="上一篇: iOS定时器整理对比">
+            <a  href="/2019/08/21/循环引用解决方案/" title="上一篇: 循环引用解决方案">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a  href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a  href="/2019/04/20/iOS知识梳理/" title="下一篇: iOS知识梳理">
+                <i class="fa fa-angle-right"></i>
+            </a>
         
     </div>
     <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/08/21/循环引用解决方案/">循环引用解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/14/iOS二进制与cocoapods插件开发/">iOS二进制与cocoapods插件开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/20/iOS知识梳理/">iOS知识梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/Category-NSInvocation通信方案/">Category+NSInvocation通信方案(CTMediator)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/Cocoapods静态库整理/">Cocoapods静态库整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/GCD使用总结/">GCD使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/iOS定时器整理对比/">iOS定时器整理对比</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/WKWebView与js的交互/">WKWebView与js交互</a></li></ul>

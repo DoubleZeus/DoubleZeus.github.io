@@ -7,19 +7,20 @@
   
   
   
-  <title>ZeusZhang</title>
+  <title>iOS知识梳理 | ZeusZhang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="zeuszhang blog">
+  <meta name="description" content="内存管理引用计数引用计数的思考方 自己生成的对象，自己持有 非自己生成的对象，自己也能持有 不再需要自己持有的对象时释放 非自己持有的对象无法释放| 对象操作 | OC方法 || – | :–: || 生成并持有对象 | alloc/new/copy/mutableCopy… || 持有对象 | retain || 释放对象 | release || 废弃对象 | dealloc |以上述方法开头">
 <meta name="keywords" content="zeus,zeuszhang,dobulez,iOS">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ZeusZhang">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS知识梳理">
+<meta property="og:url" content="http://yoursite.com/2019/04/20/iOS知识梳理/index.html">
 <meta property="og:site_name" content="ZeusZhang">
-<meta property="og:description" content="zeuszhang blog">
+<meta property="og:description" content="内存管理引用计数引用计数的思考方 自己生成的对象，自己持有 非自己生成的对象，自己也能持有 不再需要自己持有的对象时释放 非自己持有的对象无法释放| 对象操作 | OC方法 || – | :–: || 生成并持有对象 | alloc/new/copy/mutableCopy… || 持有对象 | retain || 释放对象 | release || 废弃对象 | dealloc |以上述方法开头">
 <meta property="og:locale" content="Objective-C,Swift,JavaScript">
+<meta property="og:updated_time" content="2019-12-10T03:06:02.964Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ZeusZhang">
-<meta name="twitter:description" content="zeuszhang blog">
+<meta name="twitter:title" content="iOS知识梳理">
+<meta name="twitter:description" content="内存管理引用计数引用计数的思考方 自己生成的对象，自己持有 非自己生成的对象，自己也能持有 不再需要自己持有的对象时释放 非自己持有的对象无法释放| 对象操作 | OC方法 || – | :–: || 生成并持有对象 | alloc/new/copy/mutableCopy… || 持有对象 | retain || 释放对象 | release || 废弃对象 | dealloc |以上述方法开头">
   
     <link rel="alternative" href="/atom.xml" title="ZeusZhang" type="application/atom+xml">
   
@@ -33,9 +34,6 @@
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
-    
-    
-  
   
       <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   
@@ -46,8 +44,8 @@
       var yiliaConfig = {
           fancybox: true,
           animate: true,
-          isHome: true,
-          isPost: false,
+          isHome: false,
+          isPost: true,
           isArchive: false,
           isTag: false,
           isCategory: false,
@@ -279,217 +277,7 @@
         </header>
     </div>
 </nav>
-      <div class="body-wrap">
-  
-    <article id="post-循环引用解决方案" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2019/08/21/循环引用解决方案/" class="article-date">
-      <time datetime="2019-08-21T02:46:10.000Z" itemprop="datePublished">2019-08-21</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2019/08/21/循环引用解决方案/">循环引用解决方案</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h3><p>return cycle在iOS开发中经常遇到的⚠️；当两个对象相互强引用对方时，无论哪一方调用release方法时，双方的引用计数都还大于等于1，所以不会调用dealloc方法，导致释放代码内存的方法没有执行，形成循环等待，即循环引用。<br>解决方案就是打破任一方的强引用：</p>
-<ol>
-<li>使用较多的是<strong>weak；声明一个弱引用类型的对象，解除循环引用，</strong>weak跟weak类似，当对象被系统回收时，内存地址会被指向nil，对nil的任何操作都被视为无效</li>
-<li>在较老的iOS版本中，我们也可以使用__unsafe_unretained标识符解除循环引用，但存在一定的不安全性</li>
-<li>@weakify和@strongify,这个是github上的开源库libextobjc，在EXTScope.h中有关于weak和storng的宏定义</li>
-<li>还有一种方法就是手动将某一对象置为nil，但是下次在使用之前必须重新赋值否则会报错<br>在这里个人比较推荐第3种方案，前面方案都有其局限性和不确定性。</li>
-</ol>
-<h3 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h3><p>Blocks是C语言的扩充功能。用一句话表示就是：带有自动变量（局部变量）的匿名函数。<br>而Blocks中导致错误的最多的问题就是循环引用导致的内存泄漏等等问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedof void(^CallBack)(void);</span><br><span class="line">#class</span><br><span class="line">@property (nonatomic, copy) CallBack callBack;     </span><br><span class="line"></span><br><span class="line">self.callBack = ^&#123;</span><br><span class="line">    self.view.backgroundColor = [UIColor redColor];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">self.callBack();</span><br></pre></td></tr></table></figure></p>
-<p>上面这种使用方法就是个典型的循环引用，当前VC执行pop时由于这个循环引用导致内存并不会被释放而产生内存泄漏；而根据之前提到的解决方案就是</p>
-<ol>
-<li>__weak typeof(self) weakSelf = self;</li>
-<li>__unsafe_unretained typeof(self) weakSelf = self;</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">self.callBack = ^&#123;</span><br><span class="line">    @strongify(self);</span><br><span class="line">    self....</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>self.callBack = nil;</p>
-</li>
-</ol>
-<p>第3中方案基本完美解决了循环引用问题，但是作为一个更有追求开发者，当你在向外提供API时，所有组件的使用方都不需要考虑循环引用才是最优的API设计，在这里我们修改一下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">typedof void(^CallBack)(id target);</span><br><span class="line">#class</span><br><span class="line">@property (nonatomic, copy) CallBack callBack;     </span><br><span class="line"></span><br><span class="line">self.callBack = ^(id target)&#123;</span><br><span class="line">    if ([target isKindOfClass:[Class class]]) &#123;</span><br><span class="line">        ((Class *)target).view.backgroundColor = [UIColor redColor];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">self.callBack(self);</span><br></pre></td></tr></table></figure></p>
-<p>我们将block中要用到的外部对象用参数的形式传递到block中，这样就不会造成循环引用了。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构设计-block/">架构设计 block</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS二进制与cocoapods插件开发" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2019/08/14/iOS二进制与cocoapods插件开发/" class="article-date">
-      <time datetime="2019-08-14T08:58:31.000Z" itemprop="datePublished">2019-08-14</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2019/08/14/iOS二进制与cocoapods插件开发/">iOS二进制与cocoapods插件开发</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="二进制"><a href="#二进制" class="headerlink" title="二进制"></a>二进制</h3><p>随着项目开发越来越臃肿，二进制化已经无可避免，它可以极大的加速项目编译过程，缩减编译时间，也可以在我们对外部开发提供SDK时，保护我们的源文件内容。</p>
-<h4 id="库"><a href="#库" class="headerlink" title="库"></a>库</h4><p>基于组件化开发或者SDK分发，我们可以把组件做成静态库。iOS中静态库形式是.a与.framework；动态库的形式是.dylib和.framework。关于.framework，iOS不允许我们建立自己的动态.framework，但系统提供的.framework是动态库.</p>
-<h4 id="静态库与动态库的区别"><a href="#静态库与动态库的区别" class="headerlink" title="静态库与动态库的区别"></a>静态库与动态库的区别</h4><ol>
-<li>静态库：链接时完整的拷贝至可执行文件中，被多次使用就会有多份冗余拷贝。</li>
-<li>动态库：链接时不复制，程序运行时由系统动态加载到内存中，供程序调用，系统只加载一次，多个程序公用，节省内存。</li>
-</ol>
-<h4 id="a与-framework的区别"><a href="#a与-framework的区别" class="headerlink" title=".a与.framework的区别"></a>.a与.framework的区别</h4><ol>
-<li>.a是纯二进制文件，.framework中除了有二进制文件还有资源文件</li>
-<li>.a文件不能直接使用，需要配合.h文件配合；.framework可以直接使用，因为他本身包含了.h和资源</li>
-<li>.a + .h + source = .framework<br><strong><em>建议使用.framework</em></strong></li>
-</ol>
-<h3 id="打包二进制文件"><a href="#打包二进制文件" class="headerlink" title="打包二进制文件"></a>打包二进制文件</h3><p>制作二进制包主要有两种方法</p>
-<ol>
-<li>通过xcodebuild创建对应的二进制工程，然后分别生成模拟器下与真机环境下的二进制文件，最后将两个二进制文件合并成最终需要的文件，过程不再赘述。</li>
-<li>另外就是通过cocoapods-packager生成二进制文件</li>
-</ol>
-<h4 id="cocoapods-packager"><a href="#cocoapods-packager" class="headerlink" title="cocoapods-packager"></a>cocoapods-packager</h4><p><a href="https://github.com/CocoaPods/cocoapods-packager" target="_blank" rel="noopener">cocoapods-packager</a>是cocoapods的自动化打包插件，可以用来打包生成动态库或者静态库。<br>部分参数配置如下:</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th style="text-align:center">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td> –force</td>
-<td style="text-align:center">强制覆盖之前生成的库</td>
-</tr>
-<tr>
-<td> –embedded</td>
-<td style="text-align:center">生成静态.framework</td>
-</tr>
-<tr>
-<td> –library</td>
-<td style="text-align:center">生成静态.a</td>
-</tr>
-<tr>
-<td> –dynamic</td>
-<td style="text-align:center">生成动态.framework</td>
-</tr>
-<tr>
-<td> –bundle-identifier</td>
-<td style="text-align:center">动态.framework需要签名所以要bundleID </td>
-</tr>
-<tr>
-<td> –configuration</td>
-<td style="text-align:center">表示生成的库的状态默认是release。–configuration=Debug </td>
-</tr>
-<tr>
-<td> –no-mangle</td>
-<td style="text-align:center">表示不使用name mangling技术，pod package默认使用这个技术。</td>
-</tr>
-</tbody>
-</table>
-<p><strong><em>如果你的库有其他的依赖就必须要使用name mangling技术，不然打二进制包会报错。</em></strong></p>
-<p>相应的打包步骤如下</p>
-<ol>
-<li>代码库打tag</li>
-<li>提交源码到源码repo仓库</li>
-<li>执行pod packager命令，将打包成功的framework存放到指定位置</li>
-<li>重打tag</li>
-<li>提交framework到二进制repo仓库</li>
-</ol>
-<p>这里能看到就算你准备好了二进制包，但是你还是需要提交源码文件的；因为团队本身开发时迭代升级过程，肯定需要源码调试等等问题，所以我们要达到源码和二进制随意切换的目标，所以需要两套repo存放相同pod的相同tag的不同状态。也可以看出来上面的操作非常繁琐，建议结合gitlab的CI去操作。</p>
-<h4 id="cocopods-plugins"><a href="#cocopods-plugins" class="headerlink" title="cocopods plugins"></a>cocopods plugins</h4><p>cocoapods-plugins是一个Ruby gem,当我们为cocoapods开发插件时，需要安装这个gem。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install cocoapods-plugins</span><br></pre></td></tr></table></figure></p>
-<p>在这里我们为上面的3、5的步骤提供插件开发实现，插件开发主要作用在于二进制与源码切换；<br>比如我们需要指定某几个pod为源码，或者全部使用源码等等具体实现时，可以再Podfile中修改指定的标志用以达到随意切换的目的，方便开发过程中的调试，加快编译速度。<br>二进制化辅助插件<a href="https://github.com/tripleCC/cocoapods-bin" target="_blank" rel="noopener">cocoapods-bin</a>具体实现可以看看这个。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/二进制-cocoapods/">二进制 cocoapods</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS知识梳理" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-iOS知识梳理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a  href="/2019/04/20/iOS知识梳理/" class="article-date">
@@ -506,13 +294,20 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2019/04/20/iOS知识梳理/">iOS知识梳理</a>
+    <h1 class="article-title" itemprop="name">
+      iOS知识梳理
     </h1>
   
 
 
       </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -848,501 +643,162 @@
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
   </div>
   
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Category-NSInvocation通信方案" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2016/08/13/Category-NSInvocation通信方案/" class="article-date">
-      <time datetime="2016-08-12T16:00:00.000Z" itemprop="datePublished">2016-08-13</time>
-</a>
-
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a  href="/2019/04/20/iOS知识梳理/">iOS知识梳理</a></p>
+        <p><span>文章作者:</span><a  href="/" title="访问 ZeusZhang 的个人博客">ZeusZhang</a></p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/04/20/iOS知识梳理/" title="iOS知识梳理">http://yoursite.com/2019/04/20/iOS知识梳理/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/04/20/iOS知识梳理/　　作者: ZeusZhang" title=""></span>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
     </div>
+
+
+
+<nav id="article-nav">
   
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+    <a  href="/2019/08/14/iOS二进制与cocoapods插件开发/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
         
-  
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2016/08/13/Category-NSInvocation通信方案/">Category+NSInvocation通信方案(CTMediator)</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="Category"><a href="#Category" class="headerlink" title="Category"></a>Category</h3><p>Category作为iOS开发者肯定不陌生，它的主要作用就是不改变原有类的前提下，动态的给这个类添加一些方法。Category还有很多有点，详情请参考<a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/Category.html#//apple_ref/doc/uid/TP40008195-CH5-SW1" target="_blank" rel="noopener">category</a></p>
-<h4 id="Category重名方法"><a href="#Category重名方法" class="headerlink" title="Category重名方法"></a>Category重名方法</h4><p>Category在编译器会生成class的实例方法列表 methodLists 和属性列表 properties，这两者跟class区别就是在命名规则遵循了公共前缀+类名+category名字的命名方式；然后会生成初始化自身的方法<code>OBJC$_CATEGORYClass$_category</code>；最后，编译器在DATA段下的objc_catlist section里保存一个大小为1的category_的数组（ps多个category，会生成对应的长度），用于运行期的category加载。<br>当重名方法实现时，就看谁最后被加入到methodLists中，后面的会覆盖前面的方法，想要更改执行顺序可以在<code>Target-&gt;Build Phases-&gt;Compile Sources</code>更改对应的category的顺序</p>
-<h4 id="Category关联对象"><a href="#Category关联对象" class="headerlink" title="Category关联对象"></a>Category关联对象</h4><p>我们知道在category里面无法添加实例变量。但是很多时候需要在category中添加和对象关联的值，这个时候可以通过关联对象来实现<br>MyClass+Category.h<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;MyClass.h&quot;</span><br><span class="line"></span><br><span class="line">@interface MyClass (Category)</span><br><span class="line"></span><br><span class="line">@property(nonatomic, copy) NSString *name;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
-<p>MyClass+Category.m<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Myclass+Category.h&quot;</span><br><span class="line">#import &lt;objc/runtime.h&gt;</span><br><span class="line"></span><br><span class="line">@implementation MyClass (Category)</span><br><span class="line"></span><br><span class="line">+ (void)load &#123;</span><br><span class="line">    NSLog (@&quot;%@&quot;,@&quot;load in Category&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setName:(NSString *)name &#123;</span><br><span class="line">    objc_setAssociatedObject(self,&quot;name&quot;,name,OBJC_ASSOCIATION_COPY);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString *)name &#123;</span><br><span class="line">    NSString *nameObject = objc_getAssociatedObject(self,&quot;name&quot;);</span><br><span class="line">    return nameObject;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
-<p>以上就是通过关联对象实现给Category添加属性，新的问题关联对象的存储，对象销毁时关联对象的处理暂时不做讨论，有兴趣的同学可以自己去研究。</p>
-<h3 id="NSInvocation"><a href="#NSInvocation" class="headerlink" title="NSInvocation"></a>NSInvocation</h3><p>NSIncocation经常被用在对象和app间存储和转发消息；一个NSInvocation对象包含了一个消息的所有元素：接收对象、方法选择器、参数和返回值，且这些元素在NSInvocation对象分发时都可以被修改。<br>一个NSInvocation对象可以被重复的发送个不同的接收者，它的参数也可以针对不同的结果在分发时进行修改，甚至它的方法也可以被替换，在这个方法的签名相同（ps:参数和返回类型相同）的情况下。<br>NSInvocation不支持使用可变参数的初始化方法，你只能使用<code>invocationWithMethodSignature:</code>去创建对象而不是使用<code>alloc、init</code>。<br><strong><em>NSInvocation遵循NSCodeing协议，但是它只支持NSPortCoder协议，不支持对象的归档</em></strong></p>
-<h3 id="CTMediator通信方案"><a href="#CTMediator通信方案" class="headerlink" title="CTMediator通信方案"></a>CTMediator通信方案</h3><p><a href="https://casatwy.com/iOS-Modulization.html" target="_blank" rel="noopener">CTMediator</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构设计/">架构设计</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Cocoapods静态库整理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2016/04/08/Cocoapods静态库整理/" class="article-date">
-      <time datetime="2016-04-07T16:00:00.000Z" itemprop="datePublished">2016-04-08</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+          iOS二进制与cocoapods插件开发
         
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2016/04/08/Cocoapods静态库整理/">Cocoapods静态库整理</a>
-    </h1>
   
+    <a  href="/2016/08/13/Category-NSInvocation通信方案/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Category+NSInvocation通信方案(CTMediator)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
 
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#为何选择CocoaPods做静态库</p>
-<p>公司项目框架比较大，为了以后业务发展，需要将项目分包，所以将项目的通用工具、网络层与基类封成一个基础包；开始准备将这个基础包打成framework，但考虑到以后业务也需要打包时不好引入基础包的依赖，遂将基础包做成了一个私有库供团队维护与后期开发。</p>
-<p>Cocoapods创建私有库</p>
-<p>1.创建私有repo</p>
-<p>在你的git服务器上创建一个仓库。因为github上私有仓库是收费的，大家可以自己选择git服务器。</p>
-<p>创建好仓库以后我们可以执行：</p>
-<p>pod repo add [repo_name] [repo_url]<br>repo_name使我们的仓库的名称，repo_url为仓库地址(ps:优先使用https地址，使用ssh地址时需要配置git的SSH keys)，成功后可以前往文件夹 ~/.cocoapods/repos会看到思库内容</p>
-<p>2.创建自己的Cocoapods依赖库</p>
-<p>1.首先在git上创建一个仓库，记得添加license文件和remamd文件。</p>
-<p>2.clone仓库到本地</p>
-<p>cd ~</p>
-<p>git clone [repo_url]<br>3.向本地仓库提交文件</p>
-<p>新建一个类似文件夹目录结构，将代码.h.w或者.swift文件放在Calssses文件夹中</p>
-<p>在Assets文件夹下放入一个bundle资源文件包</p>
-<p>4.生成podspec文件并编辑</p>
-<p>cd ~/[project_name]</p>
-<p>pod spec create [project_name]<br>打开该文件修改内容为</p>
-<p>s.source表示项目在git上的地址</p>
-<p>s.source_files表示代码文件地址</p>
-<p>s.resources表示资源文件地址</p>
-<p>s.frameworks表示对系统库的依赖</p>
-<p>s.depency表示对第三方库的依赖<br>5.Demo工程</p>
-<p>你可以在该文件下添加demo指导别人使用</p>
-<p>3.将代码提交到git</p>
-<p>git add .</p>
-<p>git commit -a -m ‘first’</p>
-<p>git tag -a 0.1.0 -m ‘first’ (这个tag要与版本号一致）<br>4.验证.podspec文件</p>
-<p>pod lib lint xxx.podspec –allow-warnings –use-libraries<br>验证通过后只要将代码推送到git仓库上就可以了</p>
-<p>5.将podspec给到私有repo</p>
-<p>pod repo push [repo_name] [xxx.podspec]<br>成功后就可以去本地repo地址查看</p>
-<p>Cocoapods打包带私有库依赖的framework</p>
-<p>pod lib create GTEDXCalendar</p>
-<p>What language do you want to use?? [ Swift / ObjC ]</p>
-<p>ObjC</p>
-<p>Would you like to include a demo application with your library?[ Yes / No]</p>
-<p>No</p>
-<p>Which testing frameworks will you use ? [ Specta / Kiwi  / None ]</p>
-<p>None</p>
-<p>Would you like to do view based testing? [ Yes / No ]</p>
-<p>No</p>
-<p>What is your class prefix ?</p>
-<p>GTEDX<br>成功后打开GTEDXCalendar.podspec文件修改</p>
-<p>修改方法参考上文</p>
-<p>cd ~/GTEDXCalendar/Example</p>
-<p>vim Podfile</p>
-<p>在头上添加红圈标注的代码</p>
-<p>source ‘<a href="https://github.com/CocoaPods/Specs.git&#39;" target="_blank" rel="noopener">https://github.com/CocoaPods/Specs.git&#39;</a></p>
-<p>source private #私有仓库git地址<br>然后执行pod install</p>
-<p>将源文件与资源数据放入对应的Classes与Assets文件中</p>
-<p>提交源码并打上tag</p>
-<p>验证.podspec文件</p>
-<p>pod lib lint GTEDXCalendar.podspec –allow-warnings –use-libraries –sources = private , <a href="https://github.com/CocoaPods/Specs.git" target="_blank" rel="noopener">https://github.com/CocoaPods/Specs.git</a><br>安装插件</p>
-<p>sudo gem install coocapods-packager<br>打包</p>
-<p>pod package GTEDXCalendar.podspec –force –spec-sources=private , <a href="https://github.com/CocoaPods/Specs.git" target="_blank" rel="noopener">https://github.com/CocoaPods/Specs.git</a><br>使用framework</p>
-<p>新建一个工程，新建Podfile文件</p>
-<p>在podfile文件中添加source地址</p>
-<p>将私有库中与framework的依赖都加入podfile文件中（保持版本一致）</p>
-<p>然后将framework加入项目并将framework内部的bundle也拖入项目</p>
-<p>参考</p>
-<p>使用Cocoapods制作静态库</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocoapods/">cocoapods</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
   
 </article>
 
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#内存管理"><span class="toc-number">1.</span> <span class="toc-text">内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#引用计数"><span class="toc-number">1.1.</span> <span class="toc-text">引用计数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#引用计数的思考方"><span class="toc-number">1.1.1.</span> <span class="toc-text">引用计数的思考方</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#autorelease"><span class="toc-number">1.1.2.</span> <span class="toc-text">autorelease</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ARC"><span class="toc-number">1.2.</span> <span class="toc-text">ARC</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#所有权修饰符"><span class="toc-number">1.2.1.</span> <span class="toc-text">所有权修饰符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#内存管理规则总结"><span class="toc-number">1.2.2.</span> <span class="toc-text">内存管理规则总结</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#属性"><span class="toc-number">1.2.3.</span> <span class="toc-text">属性</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ARC实现"><span class="toc-number">1.3.</span> <span class="toc-text">ARC实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#strong修饰符"><span class="toc-number">1.3.1.</span> <span class="toc-text">__strong修饰符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#weak修饰符"><span class="toc-number">1.3.2.</span> <span class="toc-text">__weak修饰符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#autoreleasing修饰符"><span class="toc-number">1.3.3.</span> <span class="toc-text">__autoreleasing修饰符</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Blocks"><span class="toc-number">2.</span> <span class="toc-text">Blocks</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Blocks结构体"><span class="toc-number">2.1.</span> <span class="toc-text">Blocks结构体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#截获自动变量"><span class="toc-number">2.2.</span> <span class="toc-text">截获自动变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Block存储域"><span class="toc-number">2.3.</span> <span class="toc-text">Block存储域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#block变量存储域"><span class="toc-number">2.4.</span> <span class="toc-text">__block变量存储域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#截获对象"><span class="toc-number">2.5.</span> <span class="toc-text">截获对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#block变量和对象"><span class="toc-number">2.6.</span> <span class="toc-text">__block变量和对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Block循环引用"><span class="toc-number">2.7.</span> <span class="toc-text">Block循环引用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#委托代理"><span class="toc-number">3.</span> <span class="toc-text">委托代理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代理"><span class="toc-number">3.1.</span> <span class="toc-text">代理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#代理模式"><span class="toc-number">3.1.1.</span> <span class="toc-text">代理模式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#weak修饰符-1"><span class="toc-number">3.1.2.</span> <span class="toc-text">weak修饰符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#代理的使用"><span class="toc-number">3.1.3.</span> <span class="toc-text">代理的使用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#代理总结"><span class="toc-number">3.1.4.</span> <span class="toc-text">代理总结</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NSProxy"><span class="toc-number">3.2.</span> <span class="toc-text">NSProxy</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NSProxy的组件化"><span class="toc-number">3.3.</span> <span class="toc-text">NSProxy的组件化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多线程"><span class="toc-number">4.</span> <span class="toc-text">多线程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GCD"><span class="toc-number">4.1.</span> <span class="toc-text">GCD</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Dispatch-Queue-API"><span class="toc-number">4.1.1.</span> <span class="toc-text">Dispatch Queue API</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#种类"><span class="toc-number">4.1.1.1.</span> <span class="toc-text">种类</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#dispatch-queue-create"><span class="toc-number">4.1.1.2.</span> <span class="toc-text">dispatch_queue_create</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Main-Dispatch-Queue-Global-Dispatch-Queue"><span class="toc-number">4.1.1.3.</span> <span class="toc-text">Main Dispatch Queue/Global Dispatch Queue</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#dispatch-set-target-queue"><span class="toc-number">4.1.1.4.</span> <span class="toc-text">dispatch_set_target_queue</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#dispatch-after"><span class="toc-number">4.1.1.5.</span> <span class="toc-text">dispatch_after</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Dispatch-Group"><span class="toc-number">4.1.1.6.</span> <span class="toc-text">Dispatch Group</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#dispatch-barrier-async"><span class="toc-number">4.1.1.7.</span> <span class="toc-text">dispatch_barrier_async</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#disaptch-sync"><span class="toc-number">4.1.1.8.</span> <span class="toc-text">disaptch_sync</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#dispatch-apply"><span class="toc-number">4.1.1.9.</span> <span class="toc-text">dispatch_apply</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#dispatch-suspend-dispatch-resume"><span class="toc-number">4.1.1.10.</span> <span class="toc-text">dispatch_suspend/dispatch_resume</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Dispatch-Semaphore"><span class="toc-number">4.1.1.11.</span> <span class="toc-text">Dispatch Semaphore</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#dispatch-once"><span class="toc-number">4.1.1.12.</span> <span class="toc-text">dispatch_once</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Dispatch-I-O"><span class="toc-number">4.1.1.13.</span> <span class="toc-text">Dispatch I/O</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NSOperation"><span class="toc-number">4.2.</span> <span class="toc-text">NSOperation</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Why-NSOperation？"><span class="toc-number">4.2.1.</span> <span class="toc-text">Why NSOperation？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#NSOperation操作和操作队列"><span class="toc-number">4.2.2.</span> <span class="toc-text">NSOperation操作和操作队列</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NSThread"><span class="toc-number">4.3.</span> <span class="toc-text">NSThread</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#锁"><span class="toc-number">4.3.1.</span> <span class="toc-text">锁</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KVC-KVO"><span class="toc-number">5.</span> <span class="toc-text">KVC-KVO</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#KVC"><span class="toc-number">5.1.</span> <span class="toc-text">KVC</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#KVC底层原理"><span class="toc-number">5.1.1.</span> <span class="toc-text">KVC底层原理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#KVC运用场景"><span class="toc-number">5.1.2.</span> <span class="toc-text">KVC运用场景</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#KVC异常处理"><span class="toc-number">5.1.3.</span> <span class="toc-text">KVC异常处理</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KVO"><span class="toc-number">5.2.</span> <span class="toc-text">KVO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#KVO底层原理"><span class="toc-number">5.2.1.</span> <span class="toc-text">KVO底层原理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NSRunloop"><span class="toc-number">6.</span> <span class="toc-text">NSRunloop</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RunLoop与线程"><span class="toc-number">6.1.</span> <span class="toc-text">RunLoop与线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RunLoop对外接口"><span class="toc-number">6.2.</span> <span class="toc-text">RunLoop对外接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RunLoop的底层实现"><span class="toc-number">6.3.</span> <span class="toc-text">RunLoop的底层实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RunLoop的应用场景"><span class="toc-number">6.4.</span> <span class="toc-text">RunLoop的应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#AutoReleasePool"><span class="toc-number">6.4.1.</span> <span class="toc-text">AutoReleasePool</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#事件响应"><span class="toc-number">6.4.2.</span> <span class="toc-text">事件响应</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#手势识别"><span class="toc-number">6.4.3.</span> <span class="toc-text">手势识别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#界面更新"><span class="toc-number">6.4.4.</span> <span class="toc-text">界面更新</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#定时器"><span class="toc-number">6.4.5.</span> <span class="toc-text">定时器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PerformSelecter"><span class="toc-number">6.4.6.</span> <span class="toc-text">PerformSelecter</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Runtime"><span class="toc-number">7.</span> <span class="toc-text">Runtime</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Runtime数据结构分析"><span class="toc-number">7.1.</span> <span class="toc-text">Runtime数据结构分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Runtime消息机制"><span class="toc-number">7.2.</span> <span class="toc-text">Runtime消息机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#消息转发"><span class="toc-number">7.3.</span> <span class="toc-text">消息转发</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#动态方法解析"><span class="toc-number">7.3.1.</span> <span class="toc-text">动态方法解析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#后备接受者对象"><span class="toc-number">7.3.2.</span> <span class="toc-text">后备接受者对象</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#消息签名"><span class="toc-number">7.3.3.</span> <span class="toc-text">消息签名</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Runtime实际应用"><span class="toc-number">7.4.</span> <span class="toc-text">Runtime实际应用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#字典转模型"><span class="toc-number">7.4.1.</span> <span class="toc-text">字典转模型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#路由中间件"><span class="toc-number">7.4.2.</span> <span class="toc-text">路由中间件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#响应链"><span class="toc-number">8.</span> <span class="toc-text">响应链</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#事件的分发与传递"><span class="toc-number">8.1.</span> <span class="toc-text">事件的分发与传递</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#寻找合适的响应对象"><span class="toc-number">8.2.</span> <span class="toc-text">寻找合适的响应对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#响应者链"><span class="toc-number">8.3.</span> <span class="toc-text">响应者链</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Layout"><span class="toc-number">9.</span> <span class="toc-text">Layout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#网络"><span class="toc-number">10.</span> <span class="toc-text">网络</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP"><span class="toc-number">10.1.</span> <span class="toc-text">HTTP</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#性能优化"><span class="toc-number">11.</span> <span class="toc-text">性能优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据安全与加密"><span class="toc-number">12.</span> <span class="toc-text">数据安全与加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设计模式"><span class="toc-number">13.</span> <span class="toc-text">设计模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法"><span class="toc-number">14.</span> <span class="toc-text">算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三方库"><span class="toc-number">15.</span> <span class="toc-text">三方库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cocoapods插件化开发"><span class="toc-number">16.</span> <span class="toc-text">cocoapods插件化开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动化打包与编译脚本开发"><span class="toc-number">17.</span> <span class="toc-text">自动化打包与编译脚本开发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跨平台了解"><span class="toc-number">18.</span> <span class="toc-text">跨平台了解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#逆向开发"><span class="toc-number">19.</span> <span class="toc-text">逆向开发</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
 
 
 
 
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 
 
 
 
-
-
-  
-    <article id="post-GCD使用总结" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2016/03/03/GCD使用总结/" class="article-date">
-      <time datetime="2016-03-02T16:00:00.000Z" itemprop="datePublished">2016-03-03</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
     
-      <input type="hidden" class="isFancy" />
+        <section class="changyan" id="comments">
+  <!--<div id="uyan_frame"></div>-->
+  <div id="SOHUCS"></div>
+  <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></script>
+  <script type="text/javascript">
+    window.changyan.api.config({
+      appid: 'xxxx',
+      conf: 'xxxxxxxxx'
+    });
+  </script>
+</section>
     
-    
-      <header class="article-header">
+
+
+
+    <div class="scroll" id="post-nav-button">
         
-  
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2016/03/03/GCD使用总结/">GCD使用总结</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>###什么是GCD<br>GCD全称为Grand Centeral Dispatch，为iOS和OS X的多核硬件上执行提供控制，是意不执行任务的技术之一。<br>开发者只需要定义想执行的任务并追加到适当的Dispatch Queue中，GCD就能生成必要的线程并执行计划任务。由于线程管理是作为系统的一部分来实现的，因此可以统一管理，也可执行任务，这样就比以前的线程更有效率。举个🌰<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">dispatch_async(queue,^&#123;</span><br><span class="line">    /*</span><br><span class="line">    * 长时间任务处理</span><br><span class="line">    *</span><br><span class="line">    * 例如数据库访问</span><br><span class="line">    */</span><br><span class="line">    /*</span><br><span class="line">    * 长时间处理结束，主线程中使用结果</span><br><span class="line">    */</span><br><span class="line">    dispatch_async(dispatch_get_main_queue(),^&#123;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>上面代码就是在后台执行线程中执行长时间处理，处理结束时，主线程使用该处理结果的源代码。</p>
-<p>###Dispatch Queue的种类<br>Dispatch queue的种类有两种：一种是等待执行中处理结束的<strong>Serial Dispatch Queue（串行队列）</strong>，另一种是不等待执行中处理的<strong>Concurrent Dispatch Queue（并行队列）</strong>。<br>虽然有了Queue的种类，那么如何才能得到Dispatch queue呢？</p>
-<p>####dispatch_queue_create<br>第一中方法是通过GCD的Api生成Dispatch Queue<br><figure class="highlight plain"><figcaption><span>myQueue </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">Serial Dispatch queue可以在创建时用NULL标识；多个线程更新相同资源导致数据竞争时建议使用Serial Dispatch Queue</span><br></pre></td></tr></table></figure></p>
-<p>dispatch_queue_t myQueue = dispatch_queue_create(“com.zeuszhang.gcd.myQueue”,DISPATCH_QUEUE_CONCURRENT);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">####Main Dispatch Queue/Global Dispatch Queue</span><br><span class="line">第二种方法是获取系统提供的Dispatch Queue</span><br><span class="line"></span><br><span class="line">Main Dispatch Queue主线程只有一个自然是Serial dispatch queue</span><br><span class="line">dispatch_queue_t myQueue = dispatch_get_main_queue();</span><br></pre></td></tr></table></figure></p>
-<p>Global Dispatch Queue是所有程序都能够使用Concurrent dispatch queue。另外Global Dispatch queue有4个执行优先级<br>1.High Priority<br>2.Default Priority<br>3.Low Priority<br>4.Background Priority<br>dispatch_queue_t myQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0);//第一个参数表示优先级<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">###dispatch_set_target_queue</span><br><span class="line">dispatch_queue_create函数生成的Dispatch Queue不管是Serial dispatch queue还是Concurrent dispatch queue，都使用默认优先级（default）Global Dispatch queue相同执行优先级的线程。而变更生成的Dispatch queue的优先级需要用到dispatch_set_target_queue函数。🌰如下</span><br></pre></td></tr></table></figure></p>
-<p>dispatch_queue_t myQueue = dispatch_queue_create(“com.zeuszhang.gcd.myQueue”,NULL);<br>dispatch_queue_t globalQueueBackground = dispatch_queue_create(DISPATCH_QUEUE_PRIORITY_BACKROUND,0);<br>dispatch_set_target_queue(myQueue,globalQueueBackground);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">指定变更优先级的Dispatch Queue为dispatch_set_target_queue函数第一个参数，指定要使用的执行优先级的Global dispatch queue为第二个参数；**ps（第一个参数不可指定为系统提供的Main Dispatch Queue或者Global Dispatch Queue）**</span><br><span class="line"></span><br><span class="line">###dispatch_after</span><br><span class="line">GCD延时函数</span><br></pre></td></tr></table></figure></p>
-<p>dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 3ull * NSEC_PER_SEC);<br>dispatch_after(time,dispatch_get_main_queue(),^{<br>    NSLog(@”waited at least three seconds”);<br>})<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">需要注意的是dispatch_after函数并不是在指定时间后执行处理，而只是在指定时间追加处理到Dispatch Queue。</span><br><span class="line"></span><br><span class="line">###Dispatch Group</span><br><span class="line">在Dispatch Queue中处理多个全部结束后想执行的操作，就可以使用Dispatch Group来使代码更简单</span><br></pre></td></tr></table></figure></p>
-<p>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);<br>dispatch_group_t group = dispatch_group_create();<br>dispatch_group_async(group,queue,^{NSLog(@”b1k0”);});<br>dispatch_group_async(group,queue,^{NSLog(@”b1k1”);});<br>dispatch_group_async(group,queue,^{NSLog(@”b1k2”);});<br>dispatch_group_notify(group,dispatch_get_main_queue(),^{NSLog(@”dine”);});<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在dispatch_group_notify函数中不管制定什么样的Dispatch Queue，属于Dispatch Group的全部处理再追加制定的Block时都已经执行结束。另外，在Dispatch Group中也可以使用dispatch_group_wait函数仅等待全部处理执行结束。</span><br></pre></td></tr></table></figure></p>
-<p>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);<br>dispatch_group_t group = dispatch_group_create();<br>dispatch_group_async(group,queue,^{NSLog(@”b1k0”);});<br>dispatch_group_async(group,queue,^{NSLog(@”b1k1”);});<br>dispatch_group_async(group,queue,^{NSLog(@”b1k2”);});<br>dispatch_group_wait(group,DISPATCH_TIME_FORVER);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_group_wait函数的第二个参数指定为等待时间属于dispatch_time_t类型的值</span><br></pre></td></tr></table></figure></p>
-<p>dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 1ull * NSEC_PER_SEC);<br>long result - dispatch_group_wait(group,time);<br>if (result == 0) {<br>    //group的处理全部结束<br>} else {<br>    //group处理中<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">如果dispatch_group_wait的返回值不为0，就意味着虽然过了指定的时间，但group中还有处理没有结束；若为0，则全部处理执行完毕。当等待时间为DISPATCH_TIME_FOREVER,由group的处理必定全部结束。</span><br><span class="line"></span><br><span class="line">###dispatch_barrier_async</span><br><span class="line">在访问数据库时，前面说用Serial dispatch queue可以避免数据竞争。写入不可以与读取处理并行操作，但是如果是读写与读写是可以并行的。</span><br><span class="line">也就是为了高效访问，读取处理追加到Concurrent dispatch queue中，写入处理在任一个读取处理没有执行的状态下追加到Serial dispatch queue中即可。虽然用group月dispatch_set_target_queue也可以处理，但代码逻辑复杂，这里提供一个简单方法**dispatch_barrier_async**</span><br><span class="line">🌰：</span><br></pre></td></tr></table></figure></p>
-<p>首先生成一个Concurrent dispatch queue在queue中追加读取处理<br>dispatch_queue_t queue = dispatch_queue_create(“com.zueszhang.gcd.forBarrier”,DISPATCH_QUEUE_CONCURRENT);<br>dispatch_async(queue,b1k0_fro_reading);<br>dispatch_async(queue,b1k1_fro_reading);<br>dispatch_async(queue,b1k2_fro_reading);<br>dispatch_async(queue,b1k3_fro_reading);<br>dispatch_barrier_async(b1k_for_writing);<br>dispatch_async(queue,b1k4_fro_reading);<br>dispatch_async(queue,b1k5_fro_reading);<br>dispatch_async(queue,b1k6_fro_reading);<br>dispatch_async(queue,b1k7_fro_reading);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">###dispatch_sync</span><br><span class="line">dispatch_sync就是将指定的block***同步***的追加到指定的Dispatch Queue中，再追加Block结束之前，dispatch_sync函数会一直等待。</span><br><span class="line"></span><br><span class="line">###dispatch_apply</span><br><span class="line">dispatch_apply函数是将dispatch_sync和Dispatch Group关联的api。该函数按指定的次数将指定的Block追加到指定的Dispatch Queue中，并等待全部处理结束</span><br><span class="line">🌰</span><br></pre></td></tr></table></figure></p>
-<p>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);<br>dispatch_apply(10,queue,^(size_t index) {<br>    NSLog(@”%zu”,index)<br>})<br>NSLog(@”Done”);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">因为在Global Dispatch queue中处理所以线程，所以各个操作时间不定。但是Done肯定是在最后被输出。</span><br><span class="line">第一个参数为重复次数，第二个参数是追加对象的Dispatch Queue，第三个参数为追加的block处理。</span><br><span class="line">常用作与对数组类对象的所有元素执行处理时，可以替代for循环的效果。</span><br><span class="line">另外，由于dispatch_apply函数也与dispatch_sync函数相同，会等待处理执行结束，因此推荐在dispatch_async函数中非同步的执行dispatch_apply</span><br></pre></td></tr></table></figure></p>
-<p>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);<br>//在global dipsatch queue中非同步执行<br>dispatch_async(queue,^{<br>    //等待dispatch_apply函数中全部处理结束<br>    dispatch_apply([array count],queue,^(size_t index){<br>        //并列处理包含在array中的全部对象<br>        NSLog(@”%zu:%@”,index,[array objectAtIndex:index]);<br>    });<br>    //等待完毕后在main中执行处理<br>    dispatch_async(dispatch_get_main_queue(),^{<br>        NSLog(@”Done”);<br>    });<br>});<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">###dispatch_suspend / dispatch_resume</span><br><span class="line">当追加大量处理到Disaptch Queue时，再追加处理的过程中，有时希望不执行已追加的处理。例如演算结果被block截获时，一些处理会对这个结果造成影响。这种情况下，只要挂起Dispatch Queue即可，当可执行时再恢复。</span><br><span class="line"></span><br><span class="line">###Dispatch Semaphore</span><br><span class="line">当并行执行的处理更新数据时，会产生数据竞争的可能，有时还会导致程序异常。虽然通过Serial Dispatch Queue和dispatch_barrier_async函数可以避免这类问题，但是有必要更细力度的控制它。</span><br><span class="line">🌰：不考虑排序，将所有数据追加到NSMutableArray中。</span><br></pre></td></tr></table></figure></p>
-<p>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);<br>NSMutableArray *array = [[NSMutableArray alloc] init];<br>for (int i = 0; i &lt; 10000; i++) {<br>    dispatch_async(queue,^{<br>        [array addObject:[NSNumber numberWithInt:i]];<br>    });<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">此时，使用global更新NSMutableArray对象，所以执行后由内存错误导致程序异常结束概率很高。此时应该使用Dispatch Semaphore。</span><br><span class="line">Dispatch Semaphore是持有计数的信号，该计数是多线程编程中的计数类型信号。在Dispatch Semaphore中，计数为0时等待，计数为1或大于1时，减去1而不等待。</span><br></pre></td></tr></table></figure></p>
-<p>dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">参数表示计数的初始值。从函数创建名称中create可以看出，该函数与Dispatch Queue和Dispatch Group一样，必须通过dispatch_release函数释放。</span><br><span class="line">dispatch_semaphore_wait函数等待Dispatch Semaphore的计数值达到大于或等于1。当计数值大于等于1，或者在待机中计数值大于等于1时，对该计数进行减法并从dispatch_semaphore_wait函数返回。第二个参数与dispatch_group_wait函数等相同，由dispatch_time_t类型值指定等待时间。</span><br><span class="line">🌰：</span><br></pre></td></tr></table></figure></p>
-<p>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);<br>dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);<br>NSMutableArray *array = [[NSMutableArray alloc] init];<br>for (int i = 0; i &lt; 10000; ++i) {<br>    dispatch_async(queue,^{<br>        dispatch_semaphore_wait(semaphore,DISPATCH_TIME_FOREVER);<br>        [array addObject:[NSNumber numberWithInt:i]];<br>        dispatch_semaphore_signal(semaphore);<br>    })<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">###dispatch_once</span><br><span class="line">这个应该是最常用的GCD api了。该函数是保证在应用程序中执行一次指定处理的Api。</span><br><span class="line">iOS单例模式：</span><br></pre></td></tr></table></figure></p>
-<p>static id manager = nil;<br>-(id)defaultManager {<br>    static dispatch_once_t once;<br>    dispatch_once(&amp;once,^{<br>        manager = [[self alloc] init];<br>    });<br>    return manager;<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">###Dispatch I/O</span><br><span class="line">读取较大文件时，如果将文件分成合适的大小并使用Global Dispatch Queue并列读取的话，应该会比一般的读取速度快不少。现今的输入/输出硬件已经可以做到一次使用多个线程更快的并列读取了。能实现这一功能的就是Dispatch I/O和Dispatch Data通过Dispatch I/O读写文件时，使用Global Dispatch Queue将1个文件按某个大小read/write</span><br></pre></td></tr></table></figure></p>
-<p>disaptch_async(queue,^{/<em>读取  0 ~ 800字节</em>/});<br>disaptch_async(queue,^{/<em>读取  801 ~ 1600字节</em>/});<br>disaptch_async(queue,^{/<em>读取  1601 ~ 2400字节</em>/});<br>disaptch_async(queue,^{/<em>读取  2401 ~ end</em>/});<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">像上面这样，将文件分割为一块一块的进行读取处理。分割读取的数据通过使用Dispatch Data可进行更为简单的进行结合和分割</span><br><span class="line">🌰：</span><br></pre></td></tr></table></figure></p>
-<p>pipe_q = dispatch_queue_create(“PipeQ”,NULL);<br>pipe_channel = dispatch_io_create(DISPATCH_IO_STREAM,fd,pipe_q,^(int err) {<br>    close(fd);<br>})</p>
-<p><em>out_fd = fdpair[1];<br>dispatch_io_set_low_water(pipe_channel,SIZE_MAX);<br>dispatch_id_read(pipe_channel, 0, SIZE_MAX, pipe_q,^(bool done,     dispatch_data_t pipedata, int err) {<br>    if (err == 0) {<br>        size_t len = dispatch_data_get_size(pipedata);<br>        if (len &gt; 0) {<br>            const char </em>bytes = NULL;<br>            char <em>encoded;<br>            dispatch_data_t md = dispatch_data_create_map(pipedata,(const void <strong>)&amp;bytes, &amp;len);<br>            encoded -asl_core_encode_buffer(bytes,len);<br>            asl_set((aslmsg)merged_msg,ASL_KEY_AUX_DATA,encoded);<br>            free(encoded);<br>            _asl_send_message(NULL,merged_msg,-1,NULL);<br>            asl_msg_release(merged_msg);<br>            dispatch_release(md);<br>        }<br>    }<br>    if (done) {<br>        dispatch_semphore_signal(sem);<br>        dispatch_release(pipe_channel);<br>        dispatch_release(pipe_q);<br>    }<br>});<br><code>`</code>
-</strong></em>同样使用”create”生成的对象最后都要释放。***</p>
-<p>###Disaptch Source<br>GCD中除了主要的Dispatch Queue外，还有不太引人注目的Dispatch Source。他是BSD系内核惯有功能kqueue的包装。<br>kqueue是在XNU内核中发生各种事件时，在应用程序编程方执行处理的技术(ps不重要)。它的CPU负荷非常小，尽量不占用资源。<br>Dispatch Source种类</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th style="text-align:center">种类</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>DISPATCH_SOURCE_TYPE_DATA_ADD</td>
-<td style="text-align:center">变量增加</td>
-</tr>
-<tr>
-<td>DISPATCH_SOURCE_TYPE_DATA_OR</td>
-<td style="text-align:center">变量OR</td>
-</tr>
-<tr>
-<td>DISPATCH_SOURCE_TYPE_MACH_SEND</td>
-<td style="text-align:center">端口发送</td>
-</tr>
-<tr>
-<td>DISPATCH_SOURCE_TYPE_MACH_RECV</td>
-<td style="text-align:center">端口接收</td>
-</tr>
-<tr>
-<td>DISPATCH_SOURCE_TYPE_PROC</td>
-<td style="text-align:center">检测到与进程有关的事件</td>
-</tr>
-<tr>
-<td>DISPATCH_SOURCE_TYPE_READ</td>
-<td style="text-align:center">可读取文件映像</td>
-</tr>
-<tr>
-<td>DISPATCH_SOURCE_TYPE_SIGNAL</td>
-<td style="text-align:center">接收信号</td>
-</tr>
-<tr>
-<td>DISPATCH_SOURCE_TYPE_TIMER</td>
-<td style="text-align:center">定时器</td>
-</tr>
-<tr>
-<td>DISPATCH_SOURCE_TYPE_VNODE</td>
-<td style="text-align:center">文件系统变更</td>
-</tr>
-<tr>
-<td>DISPATCH_SOURCE_TYPE_WRITE</td>
-<td style="text-align:center">可写入映像</td>
-</tr>
-</tbody>
-</table>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gcd/">gcd</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS定时器整理对比" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2016/01/21/iOS定时器整理对比/" class="article-date">
-      <time datetime="2016-01-20T16:00:00.000Z" itemprop="datePublished">2016-01-21</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+            <a  href="/2019/08/14/iOS二进制与cocoapods插件开发/" title="上一篇: iOS二进制与cocoapods插件开发">
+                <i class="fa fa-angle-left"></i>
+            </a>
         
-  
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2016/01/21/iOS定时器整理对比/">iOS定时器整理对比</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h2 id="NSTimer"><a href="#NSTimer" class="headerlink" title="NSTimer"></a>NSTimer</h2><h4 id="什么是NSTimer"><a href="#什么是NSTimer" class="headerlink" title="什么是NSTimer"></a>什么是NSTimer</h4><p>通过官方文档”A timer provides a way to perform a delayed ation or a periodic action. The timer waits until a certain time interval has elapsed and then fires, sending a specified message to a specified objec.”翻译过来就是timer就是一个能从现在开始的后面某个时刻或者周期性的执行我们制定的方法对象。</p>
-<h4 id="NSTimer和它调用的函数对象"><a href="#NSTimer和它调用的函数对象" class="headerlink" title="NSTimer和它调用的函数对象"></a>NSTimer和它调用的函数对象</h4><p>从前面官方解释可以看出timer会在未来的某个时刻执行一次或者多次执行我们指定的方法，这也就牵扯出一个问题，如何保证timer触发时，我们指定的方法是有效的呢？答案很简单，就是timer对它的target进行retain，我们需要小心对待target的生命周期问题，尤其是重复性的timer。在timer触发我们指定的方法后，我们需要释放timer，这里提供了invalidate方法，否则被retain的方法内对象将一直存在，造成内存泄漏。</p>
-<h4 id="NSTimer会准时触发事件吗？"><a href="#NSTimer会准时触发事件吗？" class="headerlink" title="NSTimer会准时触发事件吗？"></a>NSTimer会准时触发事件吗？</h4><p>这个答案是否定的，而且有时候会发现实际触发时间跟你设定的时间会差距挺大的，这要从NSTimer的实现说起。<br>NSTimer不是一个实时系统，所以timer触发的时机会有误差，差距的大小主要跟当前我们程序的执行情况有关系，比如程序是多线程的，而timer只是添加在某一个线程的Runloop的某一种指定的runloopmode中，由于多线程通常都是分时执行，而且每次执行的mode也可能随着时机情况变化而改变，或者在某一个时刻线程有大量复杂的运算。这些都会导致timer的触发时机不够精准。</p>
-<h2 id="CADisplayLink"><a href="#CADisplayLink" class="headerlink" title="CADisplayLink"></a>CADisplayLink</h2><h4 id="什么是CADisplayLink"><a href="#什么是CADisplayLink" class="headerlink" title="什么是CADisplayLink"></a>什么是CADisplayLink</h4><p>CADisplayLink是一个能让我们以和屏幕刷新率相同的频率将内容绘制到屏幕上的定时器。</p>
-<h4 id="CADisplayLink和它调用的函数对象"><a href="#CADisplayLink和它调用的函数对象" class="headerlink" title="CADisplayLink和它调用的函数对象"></a>CADisplayLink和它调用的函数对象</h4><p>我们在应用中创建一个CADisplayLink对象，把它添加到一个RunLoop中，并给他提供一个target和selector在屏幕刷新的时候调用；一旦该对象被以特定模式注册到RunLoop中，每当屏幕刷新时，RunLoop就会主动调用该对象绑定的target上的selector，这时target可以拿到CADisplayLink调用的时间戳，用来准备下一帧的数据。</p>
-<h4 id="CADisplayLink的准确性"><a href="#CADisplayLink的准确性" class="headerlink" title="CADisplayLink的准确性"></a>CADisplayLink的准确性</h4><p>iOS设备的屏幕刷新频率是固定的，CADisplayLink在正常情况下会在每次刷新结束都被调用，精度比NSTimer要高很多，但是CADisplayLink适用场合相对专一，适合做UI的不停重绘，比如自定义动画引擎或者视频播放的渲染。NSTimer的适用范围相对广泛。<br><strong>需要注意的是iOS设备的刷新频率是60HZ，也就是每秒60次。那么每一次刷新时间大约16.7毫秒。当我们的<em>frameInterval</em>的值为1的时候我们需要保证CADisplayLink调用的target的函数计算时间不应该大于16.7否则会出现严重的丢帧现象</strong></p>
-<h2 id="GCD-Source"><a href="#GCD-Source" class="headerlink" title="GCD Source"></a>GCD Source</h2><h4 id="dispatch-after"><a href="#dispatch-after" class="headerlink" title="dispatch_after"></a>dispatch_after</h4><p>为了避免NSTimer可能存在的风险，我们可以选择使用dispatch_after，使用gcd时系统会帮我们处理线程级的逻辑；除此之外，我们也不需要考虑RunLoop的问题，这样调用对象也不会被持有，上述关于内存泄漏也不存在了。当然，需要注意block可能导致的循环引用问题。<br><strong>但是dispatch_after也有一个很严重的问题，那就是一旦执行后就不能撤销了！！！</strong></p>
-<h4 id="dispatch-source"><a href="#dispatch-source" class="headerlink" title="dispatch_source"></a>dispatch_source</h4><p>这个时候我们就可以用GCD本身的timer功能<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);</span><br><span class="line">dispatch_source_t tiemr = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,0,0,queue);</span><br><span class="line">dispatch_source_set_timer(timer,DISPATCH_TIME_NOW,2.0 * NSEC_PER_SEC,0.1 * NSEC_PER_SEC);</span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">dispatch_source_set_event_handler(timer,&lt;&#123;</span><br><span class="line">    [weakSelf action];</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_resume(timer);</span><br><span class="line"></span><br><span class="line">disaptch_source_cancel(timer);</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/timer/">timer</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-WKWebView与js的交互" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a  href="/2015/10/20/WKWebView与js的交互/" class="article-date">
-      <time datetime="2015-10-19T16:00:00.000Z" itemprop="datePublished">2015-10-20</time>
-</a>
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-  
-    <h1 itemprop="name">
-      <a  class="article-title" href="/2015/10/20/WKWebView与js的交互/">WKWebView与js交互</a>
-    </h1>
-  
-
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="WKWebview与UIWebView的对比"><a href="#WKWebview与UIWebView的对比" class="headerlink" title="WKWebview与UIWebView的对比"></a>WKWebview与UIWebView的对比</h3><p>UIWebView自iOS2开始就有了，而WKWebView在iOS8以上的设备上才可以使用，毫无疑问WKWebView将逐步取代相对笨重的UIWebView。<br>WkWeb的优势：</p>
-<ul>
-<li>在性能、稳定性、功能方面有很多大提升</li>
-<li>更多的支持HTML5的特性</li>
-<li>官宣高达60fps的滚动刷新率以及内置手势</li>
-<li>Safari相同的JavaScript引擎</li>
-<li>新增加载进度属性等 </li>
-</ul>
-<h4 id="加载网页"><a href="#加载网页" class="headerlink" title="加载网页"></a>加载网页</h4><p>加载网页或HTML代码方式与UIWebView相同<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.frame];</span><br><span class="line">[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@&quot;www.zeuszhang.com&quot;]]];</span><br><span class="line">[self.view addSubView:webView];</span><br></pre></td></tr></table></figure></p>
-<h4 id="加载回调状态"><a href="#加载回调状态" class="headerlink" title="加载回调状态"></a>加载回调状态</h4><p>加载回调状态用来追踪整个家在过程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 页面开始加载时调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 当内容开始返回时调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 页面加载完成之后调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 页面加载失败时调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation</span><br></pre></td></tr></table></figure></p>
-<p>页面跳转的代理方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 接收到服务器跳转请求之后调用</span><br><span class="line">- (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation;</span><br><span class="line">// 在收到响应后，决定是否跳转</span><br><span class="line">- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler;</span><br><span class="line">// 在发送请求之前，决定是否跳转</span><br><span class="line">- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction</span><br></pre></td></tr></table></figure></p>
-<p>新的WKUIDelegate协议<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//警告框</span><br><span class="line">- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(void (^)())completionHandler;</span><br><span class="line">//确认框</span><br><span class="line">- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler;</span><br><span class="line">//输入框</span><br><span class="line">- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable))completionHandler;</span><br></pre></td></tr></table></figure></p>
-<p><strong><em>注意这几个方法的回调处理不让回crash</em></strong></p>
-<h4 id="动态加载并运行js代码"><a href="#动态加载并运行js代码" class="headerlink" title="动态加载并运行js代码"></a>动态加载并运行js代码</h4><p>客户端内部加载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 图片缩放的js代码</span><br><span class="line">NSString *js = @&quot;var count = document.images.length;for (var i = 0; i &lt; count; i++) &#123;var image = document.images[i];image.style.width=320;&#125;;window.alert(&apos;找到&apos; + count + &apos;张图&apos;);&quot;;</span><br><span class="line">// 根据JS字符串初始化WKUserScript对象</span><br><span class="line">WKUserScript *script = [[WKUserScript alloc] initWithSource:js injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];</span><br><span class="line">// 根据生成的WKUserScript对象，初始化WKWebViewConfiguration</span><br><span class="line">WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];</span><br><span class="line">[config.userContentController addUserScript:script];</span><br><span class="line">_webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:config];</span><br><span class="line">[_webView loadHTMLString:@&quot;&lt;head&gt;&lt;/head&gt;&lt;imgea src=&apos;http://www.nsu.edu.cn/v/2014v3/img/background/3.jpg&apos; /&gt;&quot;baseURL:nil];</span><br><span class="line">[self.view addSubview:_webView];</span><br></pre></td></tr></table></figure></p>
-<p>webview执行js代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//javaScriptString是JS方法名，completionHandler是异步回调block</span><br><span class="line">[self.webView evaluateJavaScript:javaScriptString completionHandler:completionHandler];</span><br></pre></td></tr></table></figure></p>
-<p>js调用app注册的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)addScriptMessageHandler:(id &lt;WKScriptMessageHandler&gt;)scriptMessageHandler name:(NSString *)name;</span><br><span class="line">scriptMessageHandler是代理回调，JS调用name方法后，OC会调用scriptMessageHandler指定的对象。JS在调用OC注册方法的时候要用下面的方式：</span><br><span class="line">window.webkit.messageHandlers.&lt;name&gt;.postMessage(&lt;messageBody&gt;)</span><br></pre></td></tr></table></figure></p>
-<p><strong><em>注意name是方法名，参数需要封装到messageBody中</em></strong></p>
-<p><strong><em>ps这里有一个重点需要注意的地方</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//OC注册供JS调用的方法</span><br><span class="line">[[_webView configuration].userContentController addScriptMessageHandler:self name:@&quot;closeMe&quot;];</span><br><span class="line">//OC在JS调用方法做的处理</span><br><span class="line">- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message</span><br><span class="line">&#123;</span><br><span class="line">    NSLog(@&quot;JS 调用了 %@ 方法，传回参数 %@&quot;,message.name,message.body);</span><br><span class="line">&#125;</span><br><span class="line">//JS调用</span><br><span class="line">    window.webkit.messageHandlers.closeMe.postMessage(null);</span><br></pre></td></tr></table></figure></p>
-<p>在上述客户端中处理时，会发现self的dealloc方法没有调用，我在这里的解决方案是在当前vc销毁时，手动调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[self.wkWebView.configuration.userContentController addScriptMessageHandler:self name:@&quot;&quot;];</span><br></pre></td></tr></table></figure></p>
-<p>以移除通知的监听方式。</p>
-<p><strong><em>pps WKWebViewConfiguration也存在内存泄漏问题</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WKWebViewConfiguration*config = [[WKWebViewConfigurationalloc]init];</span><br><span class="line">config.selectionGranularity = WKSelectionGranularityCharacter;</span><br><span class="line">WKWebView  *webView= [[WKWebViewalloc]initWithFrame:CGRectZero configuration:config];</span><br></pre></td></tr></table></figure></p>
-
-      
+            <a  href="/2016/08/13/Category-NSInvocation通信方案/" title="下一篇: Category+NSInvocation通信方案(CTMediator)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
     </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/08/21/循环引用解决方案/">循环引用解决方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/08/14/iOS二进制与cocoapods插件开发/">iOS二进制与cocoapods插件开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/20/iOS知识梳理/">iOS知识梳理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/13/Category-NSInvocation通信方案/">Category+NSInvocation通信方案(CTMediator)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/08/Cocoapods静态库整理/">Cocoapods静态库整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/03/GCD使用总结/">GCD使用总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/21/iOS定时器整理对比/">iOS定时器整理对比</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/10/20/WKWebView与js的交互/">WKWebView与js交互</a></li></ul>
     
-    <div class="article-info article-info-index">
-      
-      
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
 
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
+    <script>
+        $(".post-list").addClass("toc-article");
+        // $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
 
 
 
 
-
-
-
-
-
-
-
-  
-  
+    <script>
+        
+    </script>
 
 </div>
       <footer id="footer">
