@@ -200,7 +200,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/gcd/" style="font-size: 10px;">gcd</a> <a href="/tags/timer/" style="font-size: 10px;">timer</a> <a href="/tags/二进制-cocoapods/" style="font-size: 10px;">二进制 cocoapods</a> <a href="/tags/架构设计/" style="font-size: 10px;">架构设计</a> <a href="/tags/架构设计-block/" style="font-size: 10px;">架构设计 block</a>
+                        <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/gcd/" style="font-size: 10px;">gcd</a> <a href="/tags/timer/" style="font-size: 10px;">timer</a> <a href="/tags/二进制-cocoapods/" style="font-size: 10px;">二进制 cocoapods</a> <a href="/tags/架构设计/" style="font-size: 10px;">架构设计</a> <a href="/tags/架构设计-block/" style="font-size: 10px;">架构设计 block</a> <a href="/tags/跨平台-flutter/" style="font-size: 10px;">跨平台 flutter</a>
                     </div>
                 </section>
                 
@@ -280,6 +280,71 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-Flutter学习" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a  href="/2020/04/12/Flutter学习/" class="article-date">
+      <time datetime="2020-04-12T11:27:56.244Z" itemprop="datePublished">2020-04-12</time>
+</a>
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a  class="article-title" href="/2020/04/12/Flutter学习/">flutter学习</a>
+    </h1>
+  
+
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="Flutter原理"><a href="#Flutter原理" class="headerlink" title="Flutter原理"></a>Flutter原理</h3><p>Flutter是Google推出并开源的移动应用开发框架，主打跨平台、高性能。开发者通过Dart语言开发App，一套代码同时运行在iOS和Android平台。Flutter提供了丰富的组件和接口，开发者也可以很方便的为Flutter添加Native扩展。同时还使用了Native引擎渲染师徒，这也使得用户体验更好。</p>
+<h3 id="绘图原理"><a href="#绘图原理" class="headerlink" title="绘图原理"></a>绘图原理</h3><p>我们都知道显示器以固定的频率刷新，当一帧图像绘制完毕后准备绘制下一帧时，显示器会发出一个垂直同步信号（VSync），所以60Hz的屏幕会一秒内发出60次这样的信号。并且，计算机的CPU、GPU和显示器以一种特定的方式协作：CPU将计算好的内容提交给GPU，GPU渲染后放入帧缓冲区，然后视频控制器按照VSync信号从帧缓冲区取帧数据传递给显示器显示。<br>Android、iOS的App在显示UI时是如此，Flutter也不例外的遵循了这种模式。所以从这看出Flutter和RN的本质区别：RN只是扩展调用OEM组件，而Flutter是自己渲染。下图是Google提供的渲染过程<br><img src="https://pic3.zhimg.com/80/v2-6206a81c7e819ea20def8553c82f8046_1440w.jpg" alt="avatar"><br>从图中可以看出：Flutter指关心想GPU提供视图数据，GPU的VSync信号同步到UI线程，UI线程使用Dart来构建抽象的视图结构，这份数据结构在GPU线程进行图层合成，视图诗句提供给Skia引擎渲染为GPU数据，这些数据通过OpenGL或者Vulkan提供给GPU。<br>所以Flutter并不关心显示器、视频控制器以及GPU具体工作，它只关心GPU发出的VSync信号，尽可能快的在两个VSync信号之间计算并合成视图数据，并且把数据提供给GPU。</p>
+<h3 id="Flutter设计"><a href="#Flutter设计" class="headerlink" title="Flutter设计"></a>Flutter设计</h3><p><img src="https://pic2.zhimg.com/80/v2-09427bc58bb35004bc812874731509cd_1440w.jpg" alt="avatar"><br>Flutter Framework：这是一个纯Dart实现的SDK。它实现了一套基础库，用于处理动画、绘图和手势。并且基于绘图封装了一套UI组件库。<br>FLutter Engine：这是一个纯C++实现的SDK，其中包括了Skia引擎（2D绘图引擎，Android自带Skia引擎，所以Flutter Android SDK比iOS SDK小很多）、Dart运行时、文字排版引擎等</p>
+<h3 id="Flutter应用的运行"><a href="#Flutter应用的运行" class="headerlink" title="Flutter应用的运行"></a>Flutter应用的运行</h3><p><img src="https://pic3.zhimg.com/80/v2-75ae79d5702e51a6e4e2be0a36e7305e_1440w.jpg" alt="avatar"><br>在应用的VC初始化后，会实例化一个Flutter project的抽象。project会初始化一个platform View的抽象实例，这个抽象实例会负责创建Flutter的运行时（engine)<br>当VC将显示时，调用project查找和组合Flutter的应用资源bundle，并把资源提供给engine。<br>engine在真正需要执行资源bundle时才会创建Dart执行环境（懒加载）Dart Controller，<br>然后设置视图窗口的一些属性等。<br>然后engine中的Dart Controller会加载Dart代码并执行，执行的过程中会调用Native binding实现向GPU提供数据</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/跨平台-flutter/">跨平台 flutter</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
   
     <article id="post-循环引用解决方案" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -1349,7 +1414,7 @@
     <div class="outer">
         <div id="footer-info">
             <div class="footer-left">
-                &copy; 2019 ZeusZhang
+                &copy; 2020 ZeusZhang
             </div>
             <div class="footer-right">
                 <a href="http://hexo.io/" target="_blank">Hexo &nbsp;&nbsp;</a><a href="https://github.com/maochunguang" target="_blank">Blog</a> by tommy
